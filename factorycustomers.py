@@ -3351,8 +3351,8 @@ class Ui_MainWindow_client(object):
             message = "Hello Mr. " + str(customer_name) + " here is your bill for the date: " + str(date.today()) + ". Thank you for purchasing from us, please come back again or call us at +923244023811"
             for i in range(len(images)):
                 # Save pages as images in the pdf
-                    images[i].save(path2+'\\''page'+ str(i) +'.jpg', 'JPEG')
-                    pywhatkit.sendwhats_image(customer_number, str('page'+ str(i) +'.jpg'),message,wait_time=30)
+                    images[i].save(path2+'\\'+'page'+ str(i) +'.jpg', 'JPEG')
+                    pywhatkit.sendwhats_image(customer_number, str(path2+'\\'+'page'+ str(i) +'.jpg'),message,wait_time=30)
 
         
         def cashbill():
