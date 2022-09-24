@@ -1,6 +1,5 @@
 from reportlab.lib.units import inch
-from reportlab.pdfgen import canvas
-my_path='Cash_Bills\\' 
+from reportlab.pdfgen import canvas 
 
 from reportlab.lib.pagesizes import letter, A4
 import pandas as pd
@@ -19,7 +18,7 @@ import math as m
 # Total Balance
 
 def generate_cash_reciept(df,other_list):
-    global my_path
+    my_path='Cash_Bills\\'
     my_path = my_path + str(other_list[4]) + "_" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
     ##############################################################################################################
     c = canvas.Canvas(my_path)#,pagesize=letter)

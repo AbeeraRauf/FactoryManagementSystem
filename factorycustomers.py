@@ -1,4 +1,5 @@
 import datetime
+import gc
 import re
 import sys
 import traceback
@@ -30,52 +31,6 @@ details=[]
 reelsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','vendor','rate'],sheet_name='reels_stock')
 reelsstock['Weight_g']=reelsstock['Weight_g'].astype(int)
 vendorg=[]
-totaystock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','detail','rate'],sheet_name='totay')
-totaystock['Weight_g']=totaystock['Weight_g'].astype(int)
-
-rollsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['ID','Type','Rate','Size','Description','Quantity'],sheet_name='rolls_stock')
-fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGID','Size','Quantity'],sheet_name='Fluting')
-fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGBID','Size','Quantity'],sheet_name='Fluting_Bareek')
-L1 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L1ID','Size','Quantity'],sheet_name='L1')
-L1_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L1BID','Size','Quantity'],sheet_name='L1_Bareek')
-L2 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L2ID','Size','Quantity'],sheet_name='L2')
-L2_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L2BID','Size','Quantity'],sheet_name='L2_Bareek')
-testliner = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLID','Size','Quantity'],sheet_name='Test_Liner')
-testliner_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLBID','Size','Quantity'],sheet_name='Test_Liner_Bareek')
-boxboard2_5 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25ID','Size','Quantity'],sheet_name='Box_Board_2_5_No')
-boxboard2_5_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25BID','Size','Quantity'],sheet_name='Box_Board_2_5_No_Bareek')
-boxboard3 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3ID','Size','Quantity'],sheet_name='Box_Board_3_No')
-boxboard3_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3BID','Size','Quantity'],sheet_name='Box_Board_3_No_Bareek')
-localkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKID','Size','Quantity'],sheet_name='Local_Kraft')
-localkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKBID','Size','Quantity'],sheet_name='Local_Kraft_Bareek')
-importedkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KID','Size','Quantity'],sheet_name='Imported_Kraft')
-importedkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KBID','Size','Quantity'],sheet_name='Imported_Kraft_Bareek')
-superfluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFID','Size','Quantity'],sheet_name='Super_Fluting')
-superfluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFBID','Size','Quantity'],sheet_name='Super_Fluting_Bareek')
-rollsquantitylist = [fluting['Quantity'].sum(skipna=True),]
-a = list()
-a.append(fluting['Quantity'].sum(skipna=True))
-a.append(fluting_bareek['Quantity'].sum(skipna=True))
-a.append(L1['Quantity'].sum(skipna=True))
-a.append(L1_bareek['Quantity'].sum(skipna=True))
-a.append(L2['Quantity'].sum(skipna=True))
-a.append(L2_bareek['Quantity'].sum(skipna=True))
-a.append(testliner['Quantity'].sum(skipna=True))
-a.append(testliner_bareek['Quantity'].sum(skipna=True))
-a.append(boxboard2_5['Quantity'].sum(skipna=True))
-a.append(boxboard2_5_bareek['Quantity'].sum(skipna=True))
-a.append(boxboard3['Quantity'].sum(skipna=True))
-a.append(boxboard3_bareek['Quantity'].sum(skipna=True))
-a.append(localkraft['Quantity'].sum(skipna=True))
-a.append(localkraft_bareek['Quantity'].sum(skipna=True))
-a.append(importedkraft['Quantity'].sum(skipna=True))
-a.append(importedkraft_bareek['Quantity'].sum(skipna=True))
-a.append(superfluting['Quantity'].sum(skipna=True))
-a.append(superfluting_bareek['Quantity'].sum(skipna=True))
-rollsstock['Quantity']=a
-stock_out_rolls = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','quantity','quantity_in_stock'],sheet_name='rolls_stock_in_out')
-stock_out_reels = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='reels_stock_in_out')
-stock_out_totay = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='tota_stock_in_out')
  
 CashCustomers = pd.read_excel('book.xlsx', index_col=None, sheet_name='cash table',  usecols=['DATE', 'RECIEPT_NUMBER', 'CLIENT_ID', 'CLIENT_NAME',
                                                        'CONTACT_NO', 'DETAILS_OF_BILL', 'DEBIT', 'CREDIT',
@@ -329,16 +284,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Clients"))
-        '''item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "Client_ID"))
-        item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Name"))
-        item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Contact"))
-        item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("Form", "Balance"))
-        item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("Form", "Page on Manual Ledger"))'''
+         
         self.groupBox.setTitle(QtCore.QCoreApplication.translate("Form", u"Search", None))
         self.searchbutton.setText(QtCore.QCoreApplication.translate("Form", u"Search", None))
         self.label_2.setText(QtCore.QCoreApplication.translate("Form", u"Search By ID:", None))
@@ -369,6 +315,9 @@ class Ui_Form(object):
         self.del_entry_btn.setText(_translate("Form", "Delete Entry"))
 
         self.updatetable()
+        
+        def close_window():
+            QtCore.QTimer.singleShot(0, Form.close)
         
         def write_excel(df, sheets, excel_path):
             book=openpyxl.load_workbook(excel_path)
@@ -627,7 +576,59 @@ class Ui_MainWindow_client(object):
         
         self.clientrecord=clientrecord
         self.clients=pd.read_excel('book.xlsx', index_col=None,sheet_name=self.clientrecord[0])
+        self.reelsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','vendor','rate'],sheet_name='reels_stock')
+        self.reelsstock['Weight_g']=self.reelsstock['Weight_g'].astype(int)
         
+        self.totaystock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','detail','rate'],sheet_name='totay')
+        self.totaystock['Weight_g']=self.totaystock['Weight_g'].astype(int)
+
+        self.rollsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['ID','Type','Rate','Size','Description','Quantity'],sheet_name='rolls_stock')
+        self.Fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGID','Size','Quantity'],sheet_name='Fluting')
+        self.Fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGBID','Size','Quantity'],sheet_name='Fluting_Bareek')
+        self.L1 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L1ID','Size','Quantity'],sheet_name='L1')
+        self.L1_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L1BID','Size','Quantity'],sheet_name='L1_Bareek')
+        self.L2 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L2ID','Size','Quantity'],sheet_name='L2')
+        self.L2_Bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L2BID','Size','Quantity'],sheet_name='L2_Bareek')
+        self.testliner = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLID','Size','Quantity'],sheet_name='Test_Liner')
+        self.testliner_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLBID','Size','Quantity'],sheet_name='Test_Liner_Bareek')
+        self.boxboard2_5 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25ID','Size','Quantity'],sheet_name='Box_Board_2_5_No')
+        self.boxboard2_5_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25BID','Size','Quantity'],sheet_name='Box_Board_2_5_No_Bareek')
+        self.boxboard3 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3ID','Size','Quantity'],sheet_name='Box_Board_3_No')
+        self.boxboard3_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3BID','Size','Quantity'],sheet_name='Box_Board_3_No_Bareek')
+        self.localkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKID','Size','Quantity'],sheet_name='Local_Kraft')
+        self.localkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKBID','Size','Quantity'],sheet_name='Local_Kraft_Bareek')
+        self.importedkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KID','Size','Quantity'],sheet_name='Imported_Kraft')
+        self.importedkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KBID','Size','Quantity'],sheet_name='Imported_Kraft_Bareek')
+        self.Super_Fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFID','Size','Quantity'],sheet_name='Super_Fluting')
+        self.Super_Fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFBID','Size','Quantity'],sheet_name='Super_Fluting_Bareek')
+        self.rollsquantitylist = [self.Fluting['Quantity'].sum(skipna=True),]
+        a = list()
+        a.append(self.Fluting['Quantity'].sum(skipna=True))
+        a.append(self.Fluting_bareek['Quantity'].sum(skipna=True))
+        a.append(self.L1['Quantity'].sum(skipna=True))
+        a.append(self.L1_bareek['Quantity'].sum(skipna=True))
+        a.append(self.L2['Quantity'].sum(skipna=True))
+        a.append(self.L2_Bareek['Quantity'].sum(skipna=True))
+        a.append(self.testliner['Quantity'].sum(skipna=True))
+        a.append(self.testliner_bareek['Quantity'].sum(skipna=True))
+        a.append(self.boxboard2_5['Quantity'].sum(skipna=True))
+        a.append(self.boxboard2_5_bareek['Quantity'].sum(skipna=True))
+        a.append(self.boxboard3['Quantity'].sum(skipna=True))
+        a.append(self.boxboard3_bareek['Quantity'].sum(skipna=True))
+        a.append(self.localkraft['Quantity'].sum(skipna=True))
+        a.append(self.localkraft_bareek['Quantity'].sum(skipna=True))
+        a.append(self.importedkraft['Quantity'].sum(skipna=True))
+        a.append(self.importedkraft_bareek['Quantity'].sum(skipna=True))
+        a.append(self.Super_Fluting['Quantity'].sum(skipna=True))
+        a.append(self.Super_Fluting_bareek['Quantity'].sum(skipna=True))
+        self.rollsstock['Quantity']=a
+        self.stock_out_rolls = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','quantity','quantity_in_stock'],sheet_name='rolls_stock_in_out')
+        self.stock_out_reels = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='reels_stock_in_out')
+        self.stock_out_totay = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='tota_stock_in_out')
+        
+
+    
+
     def setupUi(self, MainWindow ):
         #timenow = datetime.datetime.now()
         MainWindow.setObjectName("Client Bill")
@@ -2025,16 +2026,15 @@ class Ui_MainWindow_client(object):
             #append row to the dataframe
             stock_out_rolls = stock_out_rolls.append(new_row, ignore_index=True) 
 
-          
-
-       
-
+        def close_window():
+            QtCore.QTimer.singleShot(0, MainWindow.close)
+        
         def stock_out_func_tota(dt,dets,typ,siz,wght,rate):
-            global stock_out_totay
+             
             # Details = Stock Out Client Name
             new_row = {'date':dt, 'details': dets,'item_type':typ, 'size':siz, 'weight' :wght,  'rate':rate    }
             #append row to the dataframe
-            stock_out_totay = stock_out_totay.append(new_row, ignore_index=True) 
+            self.stock_out_totay = self.stock_out_totay.append(new_row, ignore_index=True) 
  
         def write_excel(df, sheets, excel_path):
             book=openpyxl.load_workbook(excel_path )
@@ -2052,15 +2052,16 @@ class Ui_MainWindow_client(object):
                     current_row = self.cashbillDetailstable.currentRow()
                     current_column = self.cashbillDetailstable.currentColumn()
                     cell_value = self.cashbillDetailstable.item(current_row, current_column).text()  
-            
+                    
                     x = cell_value.split(' ')
                      
                     self.cashbillDetailstable.removeRow(self.cashbillDetailstable.currentRow())
                     self.updatedtext()
                     weight = ''
-                    global reelsstock
-                    global rollsstock
-                    global stock_out_totay
+                    dates=''
+                    '''global self.reelsstock
+                    global self.rollsstock
+                    global self.stock_out_totay'''
                     global vendorg
                     global details
                     if (x[-1].strip() == 'Rolls'):
@@ -2070,138 +2071,136 @@ class Ui_MainWindow_client(object):
                         det='Stock out '+self.clientName.toPlainText().strip()
                         papertype=papertype2.replace("_"," ")
                         
-                        stock_out_rolls.drop(stock_out_rolls[(stock_out_rolls['details']==det )    &( stock_out_rolls['size']==int(float(size)))  & (stock_out_rolls['quantity']==int(float(quantity)) )& (stock_out_rolls['item_type']== (papertype))  ].index, inplace=True)   
+                        self.stock_out_rolls.drop(self.stock_out_rolls[(self.stock_out_rolls['details']==det )    &( self.stock_out_rolls['size']==int(float(size)))  & (self.stock_out_rolls['quantity']==int(float(quantity)) )& (self.stock_out_rolls['item_type']== (papertype))  ].index, inplace=True)   
                         if (papertype.lower().strip()=="Fluting".lower().strip() ):
-                                global fluting
-                                for index, row in fluting.iterrows():
+                                '''global self.Fluting'''
+                                for index, row in self.Fluting.iterrows():
                                     if   row[1] == size:
                                         row[2] += (quantity) 
                             
                         if (papertype.lower().strip()=="Fluting Bareek".lower().strip() ):
 
-                            global fluting_bareek
-                            for index, row in fluting_bareek.iterrows():
+                            '''global self.Fluting_bareek'''
+                            for index, row in self.Fluting_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="L1".lower().strip() ):
 
-                            global L1
+                            '''global self.L1'''
 
-                            for index, row in L1.iterrows():
+                            for index, row in self.L1.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="L1 Bareek".lower().strip() ):
 
-                            global L1_bareek
-                            for index, row in L1_bareek.iterrows():
+                            '''global self.L1_bareek'''
+                            for index, row in self.L1_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="L2".lower().strip() ):
 
-                            global L2
-                            for index, row in L2.iterrows():
+                            '''global self.L2'''
+                            for index, row in self.L2.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="L2 Bareek".lower().strip() ):
 
-                            global L2_bareek
-                            for index, row in L2_bareek.iterrows():
+                            '''global self.L2_Bareek'''
+                            for index, row in self.L2_Bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="Test Liner".lower().strip() ):
 
-                            global testliner
+                            '''global self.testliner'''
 
-                            for index, row in testliner.iterrows():
+                            for index, row in self.testliner.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Test Liner Bareek".lower().strip() ):
 
-                            global testliner_bareek
+                            '''global self.testliner_bareek'''
 
-                            for index, row in testliner_bareek.iterrows():
+                            for index, row in self.testliner_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Boxboard 2.5 No".lower().strip() ):
 
-                            global boxboard2_5  
-                            for index, row in boxboard2_5.iterrows():
+                            '''global self.boxboard2_5'''  
+                            for index, row in self.boxboard2_5.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Boxboard2.5 Bareek".lower().strip() ):
+                            '''global self.boxboard2_5_bareek'''
 
-                            global boxboard2_5_bareek
-
-                            for index, row in boxboard2_5_bareek.iterrows():
+                            for index, row in self.boxboard2_5_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Boxboard 3 No".lower().strip() ):
 
-                            global boxboard3 
-                            for index, row in boxboard3.iterrows():
+                            '''global self.boxboard3 '''
+                            for index, row in self.boxboard3.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="Boxboard 3 Bareek".lower().strip() ):
 
-                            global boxboard3_bareek 
-                            for index, row in boxboard3_bareek.iterrows():
+                            '''global self.boxboard3_bareek''' 
+                            for index, row in self.boxboard3_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Local Kraft".lower().strip() ):
 
-                            global localkraft 
-                            for index, row in localkraft.iterrows():
+                            '''global self.localkraft '''
+                            for index, row in self.localkraft.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="Local Kraft Bareek".lower().strip() ):
 
-                            global localkraft_bareek
+                            '''global self.localkraft_bareek'''
 
-                            for index, row in localkraft_bareek.iterrows():
+                            for index, row in self.localkraft_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
                         if (papertype.lower().strip()=="Imported Kraft".lower().strip() ):
 
-                            global importedkraft
+                            '''global self.importedkraft'''
 
-                            for index, row in importedkraft.iterrows():
+                            for index, row in self.importedkraft.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
                         if (papertype.lower().strip()=="Imported Kraft Bareek".lower().strip() ):
 
-                            global importedkraft_bareek
-                            for index, row in importedkraft_bareek.iterrows():
+                            '''global self.importedkraft_bareek'''
+                            for index, row in self.importedkraft_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity)  
 
-                        if (papertype.lower().strip()=="Super Fluting".lower().strip() ):
+                        if (papertype.lower().strip()=="Super self.Fluting".lower().strip() ):
 
-                            global superfluting
-                            for index, row in superfluting.iterrows():
+                            '''global self.Super_Fluting'''
+                            for index, row in self.Super_Fluting.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
 
-                        if (papertype.lower().strip()=="Super Fluting Bareek".lower().strip() ):
+                        if (papertype.lower().strip()=="Super self.Fluting Bareek".lower().strip() ):
 
-                            global superfluting_bareek
-                            for index, row in superfluting_bareek.iterrows():
+                            '''global self.Super_Fluting_bareek'''
+                            for index, row in self.Super_Fluting_bareek.iterrows():
                                 if   row[1] == size:
                                         row[2] += (quantity) 
-                            
                             
                             
                             
@@ -2226,13 +2225,13 @@ class Ui_MainWindow_client(object):
                                             vend1="none"
                                             dates=''
                                             
-                                    reelsstock.loc[len(reelsstock)] = [dates,papertype, size, weight,vend1,0]
+                                    self.reelsstock.loc[len(self.reelsstock)] = [dates,papertype, size, weight,vend1,0]
                           #del row from the dataframe
                                     det='Stock out '+self.clientName.toPlainText().strip() 
-                                    stock_out_reels.drop(stock_out_reels[(stock_out_reels['details']==det) & (stock_out_reels['date']==dates) &
-                                                             ( stock_out_reels['size']==int(float(size)) ) &
-                                                                                  (stock_out_reels['weight']==int(float(weight))) &
-                                                                                  (stock_out_reels['item_type']== (papertype))].index, inplace=True)   
+                                    self.stock_out_reels.drop(self.stock_out_reels[(self.stock_out_reels['details']==det) & (self.stock_out_reels['date']==dates) &
+                                                             ( self.stock_out_reels['size']==int(float(size)) ) &
+                                                                                  (self.stock_out_reels['weight']==int(float(weight))) &
+                                                                                  (self.stock_out_reels['item_type']== (papertype))].index, inplace=True)   
 
                                
        
@@ -2256,15 +2255,15 @@ class Ui_MainWindow_client(object):
                                         else:
                                             details1="none"
                                             dates= ''
-                                    stock_out_totay.drop(stock_out_totay[(stock_out_totay['details']==det) &
-                                                                         ( stock_out_totay['size']==int(float(size)) ) &
-                                                                         (   stock_out_totay['date']==dates ) & 
-                                                                                              (stock_out_totay['weight']==int(float(weight))) &
-                                                                                              (stock_out_totay['item_type']== (papertype)) ].index, inplace=True)
-                                    totaystock.loc[len(totaystock)] = [dates,papertype, size, weight,details1,0]
+                                    self.stock_out_totay.drop(self.stock_out_totay[(self.stock_out_totay['details']==det) &
+                                                                         ( self.stock_out_totay['size']==int(float(size)) ) &
+                                                                         (   self.stock_out_totay['date']==dates ) & 
+                                                                                              (self.stock_out_totay['weight']==int(float(weight))) &
+                                                                                              (self.stock_out_totay['item_type']== (papertype)) ].index, inplace=True)
+                                    self.totaystock.loc[len(self.totaystock)] = [dates,papertype, size, weight,details1,0]
 
 
-                                                      
+                                    
 
                     if (x[-1] == 'Reel'):
                         
@@ -2281,16 +2280,16 @@ class Ui_MainWindow_client(object):
                                         else:
                                             vend1="none"
                                             dates=''
-                        reelsstock.loc[len(reelsstock)] = [dates,papertype, size, weight,vend1,0]
+                        self.reelsstock.loc[len(self.reelsstock)] = [dates,papertype, size, weight,vend1,0]
                           #del row from the dataframe
                         
                         
                         det='Stock out '+self.clientName.toPlainText().strip()
-                        stock_out_reels.drop(stock_out_reels[(stock_out_reels['details']==det) &
-                                                             (   stock_out_reels['size']==int(float(size)) )  &
-                                                             (   stock_out_reels['date']==dates ) & 
-                                                                                  (stock_out_reels['weight']==int(float(weight))) &
-                                                                                  (stock_out_reels['item_type']== (papertype))].index, inplace=True)
+                        self.stock_out_reels.drop(self.stock_out_reels[(self.stock_out_reels['details']==det) &
+                                                             (   self.stock_out_reels['size']==int(float(size)) )  &
+                                                             (   self.stock_out_reels['date']==dates ) & 
+                                                                                  (self.stock_out_reels['weight']==int(float(weight))) &
+                                                                                  (self.stock_out_reels['item_type']== (papertype))].index, inplace=True)
                        
                
                      
@@ -2303,6 +2302,7 @@ class Ui_MainWindow_client(object):
                         weight = int(float(weight1  ))
                         det='Stock out '+self.clientName.toPlainText().strip() 
                         papertype=papertype2.replace("_"," ")   
+                        dates=''
                         for i in range(len(details)):
                                         if (details[i][1]) ==papertype   and   (details[i][2]) ==size  and   (details[i][3]) == weight :
                                             details1=(details[i][4])#vendor
@@ -2310,12 +2310,12 @@ class Ui_MainWindow_client(object):
                                         else:
                                             details1="none"
                                             dates= ''
-                        stock_out_totay.drop(stock_out_totay[(stock_out_totay['details']==det) &
-                                                             ( stock_out_totay['size']==int(float(size)) ) &
-                                                             (   stock_out_totay['date']==dates ) & 
-                                                                                  (stock_out_totay['weight']==int(float(weight))) &
-                                                                                  (stock_out_totay['item_type']== (papertype)) ].index, inplace=True)
-                        totaystock.loc[len(totaystock)] = [dates,papertype, size, weight,details1,0]
+                        self.stock_out_totay.drop(self.stock_out_totay[(self.stock_out_totay['details']==det) &
+                                                             ( self.stock_out_totay['size']==int(float(size)) ) &
+                                                             (   self.stock_out_totay['date']==dates ) & 
+                                                                                  (self.stock_out_totay['weight']==int(float(weight))) &
+                                                                                  (self.stock_out_totay['item_type']== (papertype)) ].index, inplace=True)
+                        self.totaystock.loc[len(self.totaystock)] = [dates,papertype, size, weight,details1,0]
                      
                     self.reset_reels_container()
                     self.reset_jutta_container()
@@ -2328,19 +2328,22 @@ class Ui_MainWindow_client(object):
             except AttributeError:
                         msg = QMessageBox()  # create an instance of it
                         msg.setIcon(QMessageBox.Information)  # set icon
+                        #msg.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
                         msg.setText("No record selected")  # set text    
+        
+  
         
         def stock_out_func_reels(dt,dets,typ,siz,wght,rate):
             global stock_out_reels
             #Details = Stock Out Client Name
             new_row = {'date':dt, 'details': dets,'item_type':typ, 'size':siz, 'weight' :wght, 'rate':rate }
             #append row to the dataframe
-            stock_out_reels = stock_out_reels.append(new_row, ignore_index=True) 
+            self.stock_out_reels = self.stock_out_reels.append(new_row, ignore_index=True) 
 
       
         def add_reels():
             # size  type qty  itemname
-            global reelsstock
+            '''global self.reelsstock'''
             errors = []
             if (self.ReelsSizeComboBox.currentText() == "Select from Drop Down"):
                 errors.append("Size is not Selected")
@@ -2373,21 +2376,21 @@ class Ui_MainWindow_client(object):
 
                 weight = int(float(self.ReelsWeight.currentText()))
                 
-                global stock_out_reels
+                '''global self.stock_out_reels'''
                     
                 dets='Stock out '+self.clientName.toPlainText().strip()    
                 #Details = Stock Out Client Name
-                 
+                
                 dt=str(date.today().strftime("%d-%m-%y") )
                 
                 stock_out_func_reels(dt,dets,itemtype1,size,weight,price) 
                 global vendorg
-                for index, row in reelsstock.iterrows():
+                for index, row in self.reelsstock.iterrows():
                     if (row[1].strip().lower() == itemtype1.strip().lower()) &  ( row[2]==(int(self.ReelsSizeComboBox.currentText().strip()))) & ( (row[3])==int(weight)):
                         vendorg.append(row)
-                        reelsstock.drop(index, inplace=True)
+                        self.reelsstock.drop(index, inplace=True)
                         break
-                reelsstock.reset_index(drop=True)
+                self.reelsstock.reset_index(drop=True)
                 self.reset_reels_container()
 
             else:
@@ -2402,7 +2405,7 @@ class Ui_MainWindow_client(object):
                 message = msg.exec_()
 
         def add_rolls():
-            global rollsstock
+            '''global self.rollsstock'''
             errors = []
             if self.RollsSizeComboBox.currentText() == "Select from Drop Down":
                 errors.append("Size is not Selected")
@@ -2429,164 +2432,164 @@ class Ui_MainWindow_client(object):
                 self.cashbillDetailstable.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(name))
                 self.cashbillDetailstable.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(price))
                 self.updatedtext()
-                global stock_out_rolls
+                '''global self.stock_out_rolls'''
                 det='Stock out '+self.clientName.toPlainText().strip()    
                 #Details = Stock Out Client Name
                 
                 dt=str(date.today().strftime("%d-%m-%y") )
-                #rollsstock.reset_index(drop=True)
+                #self.rollsstock.reset_index(drop=True)
                 if (itemtype1.lower().strip()=="Fluting".lower().strip() ):
-                    global fluting
-                    for index, row in fluting.iterrows():
+                    '''global self.Fluting'''
+                    for index, row in self.Fluting.iterrows():
                         if (  (row['Size'] == int(size))):
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                             newquantity = row['Quantity'] - (qty)
-                            fluting.loc[index, 'Quantity'] = newquantity 
+                            self.Fluting.loc[index, 'Quantity'] = newquantity 
                             
                 if (itemtype1.lower().strip()=="Fluting Bareek".lower().strip() ):
                    
-                    global fluting_bareek
-                    for index, row in fluting_bareek.iterrows():
+                    '''global self.Fluting_bareek'''
+                    for index, row in self.Fluting_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
-                            fluting_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.Fluting_bareek.loc[index, 'Quantity'] = newquantity 
                             
                 if (itemtype1.lower().strip()=="L1".lower().strip() ):
                     
-                    global L1
+                    '''global self.L1'''
                      
-                    for index, row in L1.iterrows():
+                    for index, row in self.L1.iterrows():
                         if (  (row['Size'] == int(size))):
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                             newquantity = row['Quantity'] - (qty)
-                            L1.loc[index, 'Quantity'] = newquantity 
+                            self.L1.loc[index, 'Quantity'] = newquantity 
                             
                 if (itemtype1.lower().strip()=="L1 Bareek".lower().strip() ):
                     
-                    global L1_bareek
-                    for index, row in L1_bareek.iterrows():
+                    '''global self.L1_bareek'''
+                    for index, row in self.L1_bareek.iterrows():
                         if ((row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
-                            L1_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.L1_bareek.loc[index, 'Quantity'] = newquantity 
                             
                 if (itemtype1.lower().strip()=="L2".lower().strip() ):
                     
-                    global L2
-                    for index, row in L2.iterrows():
+                    ''' global self.L2'''
+                    for index, row in self.L2.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            L2.loc[index, 'Quantity'] = newquantity 
+                            self.L2.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="L2 Bareek".lower().strip() ):
                     
-                    global L2_bareek
-                    for index, row in L2_bareek.iterrows():
+                    '''global self.L2_Bareek'''
+                    for index, row in self.L2_Bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            L2_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.L2_Bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Test Liner".lower().strip() ):
                     
-                    global testliner
+                    '''global self.testliner'''
                      
-                    for index, row in testliner.iterrows():
+                    for index, row in self.testliner.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            testliner.loc[index, 'Quantity'] = newquantity 
+                            self.testliner.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Test Liner Bareek".lower().strip() ):
                     
-                    global testliner_bareek
+                    '''global self.testliner_bareek'''
                     
-                    for index, row in testliner_bareek.iterrows():
+                    for index, row in self.testliner_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            testliner_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.testliner_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Boxboard 2.5 No".lower().strip() ):
                     
-                    global boxboard2_5  
-                    for index, row in boxboard2_5.iterrows():
+                    '''global self.boxboard2_5'''  
+                    for index, row in self.boxboard2_5.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            boxboard2_5.loc[index, 'Quantity'] = newquantity 
+                            self.boxboard2_5.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Boxboard 2.5 Bareek".lower().strip() ):
                     
-                    global boxboard2_5_bareek
+                    '''global self.boxboard2_5_bareek'''
                     
-                    for index, row in boxboard2_5_bareek.iterrows():
+                    for index, row in self.boxboard2_5_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            boxboard2_5_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.boxboard2_5_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Boxboard 3 No".lower().strip() ):
                     
-                    global boxboard3 
-                    for index, row in boxboard3.iterrows():
+                    '''global self.boxboard3 '''
+                    for index, row in self.boxboard3.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            boxboard3.loc[index, 'Quantity'] = newquantity 
+                            self.boxboard3.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Boxboard 3 Bareek".lower().strip() ):
                     
-                    global boxboard3_bareek 
-                    for index, row in boxboard3_bareek.iterrows():
+                    '''global self.boxboard3_bareek''' 
+                    for index, row in self.boxboard3_bareek.iterrows():
                         if ((row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            boxboard3_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.boxboard3_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Local Kraft".lower().strip() ):
                     
-                    global localkraft 
-                    for index, row in localkraft.iterrows():
+                    '''global self.localkraft''' 
+                    for index, row in self.localkraft.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            localkraft.loc[index, 'Quantity'] = newquantity 
+                            self.localkraft.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Local Kraft Bareek".lower().strip() ):
                     
-                    global localkraft_bareek
+                    '''global self.localkraft_bareek'''
                    
-                    for index, row in localkraft_bareek.iterrows():
+                    for index, row in self.localkraft_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            localkraft_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.localkraft_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Imported Kraft".lower().strip() ):
                     
-                    global importedkraft
+                    '''global self.importedkraft'''
                      
-                    for index, row in importedkraft.iterrows():
+                    for index, row in self.importedkraft.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            importedkraft.loc[index, 'Quantity'] = newquantity 
+                            self.importedkraft.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                 if (itemtype1.lower().strip()=="Imported Kraft Bareek".lower().strip() ):
                     
-                    global importedkraft_bareek
-                    for index, row in importedkraft_bareek.iterrows():
+                    '''global self.importedkraft_bareek'''
+                    for index, row in self.importedkraft_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            importedkraft_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.importedkraft_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
-                if (itemtype1.lower().strip()=="Super Fluting".lower().strip() ):
+                if (itemtype1.lower().strip()=="Super self.Fluting".lower().strip() ):
                     
-                    global superfluting
-                    for index, row in superfluting.iterrows():
+                    '''global self.Super_Fluting'''
+                    for index, row in self.Super_Fluting.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            superfluting.loc[index, 'Quantity'] = newquantity 
+                            self.Super_Fluting.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
-                if (itemtype1.lower().strip()=="Super Fluting Bareek".lower().strip() ):
+                if (itemtype1.lower().strip()=="Super self.Fluting Bareek".lower().strip() ):
                     
-                    global superfluting_bareek
-                    for index, row in superfluting_bareek.iterrows():
+                    '''global self.Super_Fluting_bareek'''
+                    for index, row in self.Super_Fluting_bareek.iterrows():
                         if (  (row['Size'] == int(size))):
                             newquantity = row['Quantity'] - (qty)
-                            superfluting_bareek.loc[index, 'Quantity'] = newquantity 
+                            self.Super_Fluting_bareek.loc[index, 'Quantity'] = newquantity 
                             stock_out_func(dt,det,itemtype1,size,qty,row['Quantity'])
                      
                 self.reset_rolls_container()
@@ -2602,8 +2605,8 @@ class Ui_MainWindow_client(object):
                 message = msg.exec_()
 
         def add_packets():
-            global reelsstock
-            global totaystock
+            '''global self.reelsstock
+            global self.totaystock'''
             errors = []
             
             if ( not (bool(re.match('\d+$', self.packetgram_m.toPlainText().strip()))))  :
@@ -2663,36 +2666,36 @@ class Ui_MainWindow_client(object):
                 global details 
                 if (self.items.currentText() != "Select from Drop Down"):
                     if (self.items.currentText().strip().lower() == "reel".strip()): 
-                        global stock_out_reels
+                        '''global self.stock_out_reels'''
                         dets='Stock out '+self.clientName.toPlainText().strip()  
                         #dates= (self.dateTimeEdit.date().toPyDate().strftime("%Y-%m-%d"))
-                         
+                        
                         dt=str(date.today().strftime("%d-%m-%y") )
                         
                         stock_out_func_reels(dt,dets,itemtype1,size,grammage,price) 
                         if (self.packetsize.currentText() != "Select from Drop Down"):
                             length=self.packetsize.currentText().strip()
-                            for index, row in reelsstock.iterrows():
+                            for index, row in self.reelsstock.iterrows():
                                 if row[1].strip().lower() == itemtype1.strip().lower() and  row[2] == int( (length))  and  row[3] ==  (grammage) :
                                     vendorg.append(row)
-                                    reelsstock.drop(index, inplace=True)
-                            reelsstock.reset_index(drop=True)
+                                    self.reelsstock.drop(index, inplace=True)
+                            self.reelsstock.reset_index(drop=True)
                     if (self.items.currentText().strip().lower() == "tota"):
-                        global stock_out_totay 
+                        '''global self.stock_out_totay''' 
                         dets='Stock out '+self.clientName.toPlainText().strip() 
                                     #Details = Stock Out Client Name
-                        #e =  datetime.now()
+                        
                         dt=str(date.today().strftime("%d-%m-%y") )
                          
                         stock_out_func_tota(dt,dets,itemtype1,size,grammage,price) 
                         
-                        if (self.packetsize.currentText() != "Select from Drop Down" ): 
+                        if (self.packetsize.currentText() != "Select from Drop Down"): 
                                 length=self.packetsize.currentText().strip()
-                                for index, row in totaystock.iterrows():
+                                for index, row in self.totaystock.iterrows():
                                     if row[1].strip().lower() == itemtype1.strip().lower()  and  row[2] == int( (length))  and  row[3]  ==  ( (grammage)) :
                                         details.append(row)
-                                        totaystock.drop(index, inplace=True)
-                                totaystock.reset_index(drop=True)
+                                        self.totaystock.drop(index, inplace=True)
+                                self.totaystock.reset_index(drop=True)
     
                 
                     self.reset_packets_container()
@@ -2755,7 +2758,7 @@ class Ui_MainWindow_client(object):
             if self.TotaRateTextField.toPlainText().strip() == '': errors.append(" rate text field is empty")
             if not (bool(re.match('^[0-9]+$', self.TotaRateTextField.toPlainText().strip()))):
                 errors.append("wrong input in rate text field")
-            global totaystock
+            '''global self.totaystock'''
             if (self.totaTypeComboBox_2.currentText() == "Select from Drop Down"):
                 errors.append('Type Not Selected')
             if (self.TotaWeightTextField.currentText() != "Select from Drop Down") and (self.TotaWeightTextField_2.toPlainText().strip()!=""):
@@ -2796,21 +2799,22 @@ class Ui_MainWindow_client(object):
                 self.updatedtext()
                 
                 #
-                global stock_out_totay 
+                '''global self.stock_out_totay''' 
                 global details 
                 
-                dets='Stock out '+self.clientName.toPlainText().strip()
+                dets='Stock out '+self.clientName.toPlainText().strip()+' Cash Customer'    
                                     #Details = Stock Out Client Name
                 #dt= str(date.today()  .toPyDate().strftime("%Y-%m-%d"))
-                 
+                #e = datetime.now()
                 dt=str(date.today().strftime("%d-%m-%y") )
                 stock_out_func_tota(dt,dets,itemtype1,size,weight,price) 
-                for index, row in totaystock.iterrows():
-                        if row[1].strip().lower() == self.totaTypeComboBox_2.currentText().strip().lower()  and  row[2] == int( (size))  and  row[3]  ==  ( int(weight)) :
+                for index, row in self.totaystock.iterrows():
+                    if row[0].strip().lower()==self.totaTypeComboBox_2.currentText().strip().lower() and row[1]==int(size) and row[2]==int(weight):
                             details.append(row)
-                            totaystock.drop(index, inplace=True)
-                totaystock.reset_index(drop=True)
+                            self.totaystock.drop(index, inplace=True)
+                self.totaystock.reset_index(drop=True)
                 self.reset_totay_container()
+
         def add_raddi():
             errors = []
 
@@ -2874,7 +2878,7 @@ class Ui_MainWindow_client(object):
                 self.updatedtext()
                 self.reset_nali_container()
             if (len(errors) != 0):
-               
+                #print(errors, " erors ")
                 msg = QMessageBox()  # create an instance of it
                 msg.setIcon(QMessageBox.Information)  # set icon
                 msgs = " , ".join([str(item) for item in errors])
@@ -2885,7 +2889,7 @@ class Ui_MainWindow_client(object):
                 message = msg.exec_()
 
         def quantityrollsstockcheck():
-            global rollsstock
+            '''global self.rollsstock'''
             if (self.RollsPaperTypeComboBox.currentText() == "Select from Drop Down" or self.RollsSizeComboBox.currentText() == "Select from Drop Down"):
                 self.QuantityStockRolls.setText('0')
 
@@ -2894,9 +2898,9 @@ class Ui_MainWindow_client(object):
                 size = int(self.RollsSizeComboBox.currentText())
                 qty = ''
                 if (itemtype.lower().strip()=="Fluting".lower().strip() ):                    
-                    global fluting
-                    #fluting['Item_Type'] = rollsstock['Item_Type'].astype(str)
-                    res = fluting[ (fluting['Size'] == size)]
+                    '''global self.Fluting'''
+                    #self.Fluting['Item_Type'] = self.rollsstock['Item_Type'].astype(str)
+                    res = self.Fluting[ (self.Fluting['Size'] == size)]
                     qty = ((res['Quantity'].to_string(index=False)))
                     isempty = res.empty
                     if (isempty==False):
@@ -2904,25 +2908,9 @@ class Ui_MainWindow_client(object):
                     else:
                         self.QuantityStockRolls.setText('0')
                 if (itemtype.lower().strip()=="Fluting Bareek".lower().strip() ):
-                    global fluting_bareek
-                    res = fluting_bareek[ (fluting_bareek['Size'] == size)]
-
-
-                    qty = ((res['Quantity'].to_string(index=False)))
-                    isempty = res.empty
-                    try:
-                        
-                        if (isempty==False):
-                            self.QuantityStockRolls.setText(qty)
-
-                        else:
-                            self.QuantityStockRolls.setText('0') 
-                    except RuntimeError:
-                                     traceback.print_exc()         
-                if (itemtype.lower().strip()=="L1".lower().strip()):
-                    
-                    global L1
-                    res = L1[ (L1['Size'] == size)]
+                   
+                    '''global self.Fluting_bareek'''
+                    res = self.Fluting_bareek[ (self.Fluting_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -2933,10 +2921,27 @@ class Ui_MainWindow_client(object):
 
                     else:
                         self.QuantityStockRolls.setText('0') 
+                            
+                if (itemtype.lower().strip()=="L1".lower().strip()):
+                    
+                    '''global self.L1'''
+                    res = self.L1[ (self.L1['Size'] == size)]
+
+
+                    qty = ((res['Quantity'].to_string(index=False)))
+                    isempty = res.empty
+
+                    if (isempty==False):
+                        self.QuantityStockRolls.setText(qty)
+
+                    else:
+                        self.QuantityStockRolls.setText('0') 
+                     
+                            
                 if (itemtype.lower().strip()=="L1 Bareek".lower().strip() ):
                     
-                    global L1_bareek
-                    res = L1_bareek[ (L1_bareek['Size'] == size)]
+                    '''global self.L1_bareek'''
+                    res = self.L1_bareek[ (self.L1_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -2950,8 +2955,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="L2".lower().strip() ):
                     
-                    global L2
-                    res = L2[ (L2['Size'] == size)]
+                    '''global self.L2'''
+                    res = self.L2[ (self.L2['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -2965,8 +2970,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="L2 Bareek".lower().strip() ):
                     
-                    global L2_bareek
-                    res = L2_bareek[ (L2_bareek['Size'] == size)]
+                    '''global self.L2_Bareek'''
+                    res = self.L2_Bareek[ (self.L2_Bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -2980,8 +2985,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Test Liner".lower().strip() ):
                     
-                    global testliner
-                    res = testliner[ (testliner['Size'] == size)]
+                    '''global self.testliner'''
+                    res = self.testliner[ (self.testliner['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -2996,8 +3001,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Test Liner Bareek".lower().strip() ):
                     
-                    global testliner_bareek
-                    res = testliner_bareek[ (testliner_bareek['Size'] == size)]
+                    '''global self.testliner_bareek'''
+                    res = self.testliner_bareek[ (self.testliner_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3011,9 +3016,9 @@ class Ui_MainWindow_client(object):
                      
                             
                 if (itemtype.lower().strip()=="Boxboard 2.5 No".lower().strip() ):
-                    global boxboard2_5 
+                    '''global self.boxboard2_5''' 
                     
-                    res = boxboard2_5[ (boxboard2_5['Size'] == size)]
+                    res = self.boxboard2_5[ (self.boxboard2_5['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3029,8 +3034,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Boxboard 2.5 Bareek".lower().strip() ):
                     
-                    global boxboard2_5_bareek
-                    res = boxboard2_5_bareek[ (boxboard2_5_bareek['Size'] == size)]
+                    '''global self.boxboard2_5_bareek'''
+                    res = self.boxboard2_5_bareek[ (self.boxboard2_5_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3045,8 +3050,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Boxboard 3 No".lower().strip() ):
                     
-                    global boxboard3 
-                    res = boxboard3[(boxboard3['Size'] == size)]
+                    '''global self.boxboard3 '''
+                    res = self.boxboard3[(self.boxboard3['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3060,8 +3065,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Boxboard 3 Bareek".lower().strip() ):
                     
-                    global boxboard3_bareek 
-                    res = boxboard3_bareek[ (boxboard3_bareek['Size'] == size)]
+                    ''' global self.boxboard3_bareek '''
+                    res = self.boxboard3_bareek[ (self.boxboard3_bareek['Size'] == size)]
                     qty = ((res['Quantity'].to_string(index=False)))
                     isempty = res.empty
                     if (isempty==False):
@@ -3071,8 +3076,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Local Kraft".lower().strip() ):
                     
-                    global localkraft 
-                    res = localkraft[ (localkraft['Size'] == size)]
+                    '''global self.localkraft''' 
+                    res = self.localkraft[ (self.localkraft['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3086,9 +3091,9 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Local Kraft Bareek".lower().strip() ):
                     
-                    global localkraft_bareek
+                    '''global self.localkraft_bareek'''
                    
-                    res = localkraft_bareek[ (localkraft_bareek['Size'] == size)]
+                    res = self.localkraft_bareek[ (self.localkraft_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3102,8 +3107,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Imported Kraft".lower().strip() ):
                     
-                    global importedkraft
-                    res = importedkraft[ (importedkraft['Size'] == size)]
+                    '''global self.importedkraft'''
+                    res = self.importedkraft[ (self.importedkraft['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3118,8 +3123,8 @@ class Ui_MainWindow_client(object):
                             
                 if (itemtype.lower().strip()=="Imported Kraft Bareek".lower().strip() ):
                     
-                    global importedkraft_bareek
-                    res = importedkraft_bareek[ (importedkraft_bareek['Size'] == size)]
+                    '''global self.importedkraft_bareek'''
+                    res = self.importedkraft_bareek[ (self.importedkraft_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3131,10 +3136,10 @@ class Ui_MainWindow_client(object):
                     else:
                         self.QuantityStockRolls.setText('0') 
                             
-                if (itemtype.lower().strip()=="Super Fluting".lower().strip() ):
+                if (itemtype.lower().strip()=="Super self.Fluting".lower().strip() ):
                     
-                    global superfluting
-                    res = superfluting[ (superfluting['Size'] == size)]
+                    '''global self.Super_Fluting'''
+                    res = self.Super_Fluting[ (self.Super_Fluting['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3145,10 +3150,10 @@ class Ui_MainWindow_client(object):
 
                     else:
                         self.QuantityStockRolls.setText('0')
-                if (itemtype.lower().strip()=="Super Fluting Bareek".lower().strip() ):
+                if (itemtype.lower().strip()=="Super self.Fluting Bareek".lower().strip() ):
                     
-                    global superfluting_bareek
-                    res = superfluting_bareek[ (superfluting_bareek['Size'] == size)]
+                    '''global self.Super_Fluting_bareek'''
+                    res = self.Super_Fluting_bareek[ (self.Super_Fluting_bareek['Size'] == size)]
 
 
                     qty = ((res['Quantity'].to_string(index=False)))
@@ -3163,7 +3168,7 @@ class Ui_MainWindow_client(object):
                     
                      
         def quantityreelsweightstockcheck():
-            global reelsstock
+            '''global self.reelsstock'''
             if (self.ReelsPaperTypeComboBox.currentText() == "Select from Drop Down" or self.ReelsSizeComboBox.currentText() == "Select from Drop Down"):
                 self.QuantityStockReels.setText('0')
                 self.ReelsWeight.clear()
@@ -3174,34 +3179,24 @@ class Ui_MainWindow_client(object):
                     papertype = (self.ReelsPaperTypeComboBox.currentText())
                     size = int((self.ReelsSizeComboBox.currentText()))
                     qty = ''
-                    reelsstock['Item_Type'] = reelsstock['Item_Type'].astype(str)
-                    res = reelsstock[(reelsstock['Item_Type'].str.strip() == papertype.strip()) & (reelsstock['Size'] == size)]
+                    self.reelsstock['Item_Type'] = self.reelsstock['Item_Type'].astype(str)
+                    res = self.reelsstock[(self.reelsstock['Item_Type'].str.strip() == papertype.strip()) & (self.reelsstock['Size'] == size)]
                     qty = str(len(res))
-                    try:
-                        
-                        self.QuantityStockReels.setText(qty)
-                    except RuntimeError:
-                                     traceback.print_exc()
-                    try:
-                        weights = (res['Weight_g'].unique())
-                        if (len(weights) != 0):
-                            self.ReelsWeight.clear()
-                            self.ReelsWeight.addItem("Select from Drop Down")
-                            for i in weights:
-                                self.ReelsWeight.addItem(str(i))
-                         
-                    except RuntimeError:
-                                     traceback.print_exc()
-                    
-                   
+                    self.QuantityStockReels.setText(qty)
+                    weights = (res['Weight_g'].unique())
+                    if (len(weights) != 0):
+                        self.ReelsWeight.clear()
+                        self.ReelsWeight.addItem("Select from Drop Down")
+                        for i in weights:
+                            self.ReelsWeight.addItem(str(i))
 
         def quantityreelssizestockcheck():
 
-            global reelsstock
+            '''global self.reelsstock'''
 
             if not (self.ReelsPaperTypeComboBox.currentText() == "Select from Drop Down"):
                 selected = self.ReelsPaperTypeComboBox.currentText()
-                res = reelsstock[(reelsstock['Item_Type'].str.strip() == selected.strip())]
+                res = self.reelsstock[(self.reelsstock['Item_Type'].str.strip() == selected.strip())]
                 sizes= res['Size'].unique()  
                 if (len(sizes) != 0):
                     self.ReelsSizeComboBox.clear()
@@ -3217,11 +3212,11 @@ class Ui_MainWindow_client(object):
                 self.QuantityStockReels.setText('0')
 
         def packetssizelist():
-            global reelsstock
+            '''global self.reelsstock'''
              
             if not (self.PacketsPaperTypeComboBox.currentText() == "Select from Drop Down"):
                 selected = self.PacketsPaperTypeComboBox.currentText()
-                res = reelsstock[(reelsstock['Item_Type'].str.strip() == selected.strip())]
+                res = self.reelsstock[(self.reelsstock['Item_Type'].str.strip() == selected.strip())]
                 res.sort_values(by=['Size'])
                 sizes= res['Size'].unique()  
                 if (len(sizes) != 0):
@@ -3235,10 +3230,10 @@ class Ui_MainWindow_client(object):
                 self.packetsize.clear()
                 self.packetsize.addItem("Select from Drop Down")
                 self.PacketsTotaDetails.setText('0')
+                
         def totaypacketquantityweightlist():
-            global totaystock
-            global reelsstock
-            print("here event trig")
+            '''global self.totaystock
+            global self.reelsstock'''
             if (self.PacketsPaperTypeComboBox.currentText() == "Select from Drop Down" or self.packetsize.currentText() == "Select from Drop Down" or self.items.currentText().strip().lower() == "select from drop down"    ):
                 self.PacketsTotaDetails.setText('packettota')
                 #self.packetgram_m.setText("")
@@ -3253,8 +3248,8 @@ class Ui_MainWindow_client(object):
                     papertype = (self.PacketsPaperTypeComboBox.currentText().strip() )
                     size = float(self.packetsize.currentText())
                     qty = ''
-                    totaystock['Item_Type'] = totaystock['Item_Type'].astype(str)
-                    res = totaystock[(totaystock['Item_Type'].str.strip()  == papertype.strip())  &  (totaystock['Size'] == size)]
+                    self.totaystock['Item_Type'] = self.totaystock['Item_Type'].astype(str)
+                    res = self.totaystock[(self.totaystock['Item_Type'].str.strip()  == papertype.strip())  &  (self.totaystock['Size'] == size)]
                     qty = str(len(res))
                     import traceback
                     try:
@@ -3274,13 +3269,12 @@ class Ui_MainWindow_client(object):
                         papertype = (self.PacketsPaperTypeComboBox.currentText())
                         size = float(self.packetsize.currentText())
                         qty = ''
-                        reelsstock['Item_Type'] = reelsstock['Item_Type'].astype(str)
-                        res = reelsstock[
-                            (reelsstock['Item_Type'].str.strip() == papertype.strip())  &  (reelsstock['Size'] == size)]
+                        self.reelsstock['Item_Type'] = self.reelsstock['Item_Type'].astype(str)
+                        res = self.reelsstock[
+                            (self.reelsstock['Item_Type'].str.strip() == papertype.strip())  &  (self.reelsstock['Size'] == size)]
                         qty = str(len(res))
                         self.PacketsTotaDetails.setText(qty)
                         weights = (res['Weight_g'].unique())
-                        print(weights)
                         if (len(weights) != 0):
                             self.PacketsGrammage.clear()
                             self.PacketsGrammage.addItem("Select from Drop Down")
@@ -3291,13 +3285,12 @@ class Ui_MainWindow_client(object):
                         
                         self.PacketsGrammage.addItem("Select from Drop Down")
  
- 
         def ratelistrolls():
             if (not(self.RollsPaperTypeComboBox.currentText() == "Select from Drop Down" )):
                 itemtype = (self.RollsPaperTypeComboBox.currentText()).strip().lower()
-                global rollsstock
+                '''global self.rollsstock'''
                 
-                for index,row in rollsstock.iterrows():
+                for index,row in self.rollsstock.iterrows():
                         if (row['Type'].strip().lower()==itemtype):
                             self.RollsRate.setText(str(row['Rate']))
             else: 
@@ -3306,21 +3299,19 @@ class Ui_MainWindow_client(object):
                  
         
         def totay_quantityweightlist():
-            global totaystock
+            '''global self.totaystock'''
             if (self.totaTypeComboBox_2.currentText() == "Select from Drop Down" or self.TotaSizeTextField.currentText() == "Select from Drop Down" ):
                 self.totayquantityfield.setText('0')
                 self.totaquantity.setText('0')
                 self.TotaWeightTextField_2.setText('0')
                 self.TotaWeightTextField.clear()
                 self.TotaWeightTextField.addItem("Select from Drop Down") 
-            
             if (self.totaTypeComboBox_2.currentText() != "Select from Drop Down") and ( self.TotaSizeTextField.currentText() != "Select from Drop Down"):
                     papertype = (self.totaTypeComboBox_2.currentText())
                     size = float(self.TotaSizeTextField.currentText())
                     qty = ''
-                    totaystock['Item_Type'] = totaystock['Item_Type'].astype(str)
-                    res =totaystock[
-                        (totaystock['Item_Type'].str.strip() == papertype.strip())  &  (totaystock['Size'] == size)]
+                    self.totaystock['Item_Type'] = self.totaystock['Item_Type'].astype(str)
+                    res =self.totaystock[(self.totaystock['Item_Type'].str.strip() == papertype.strip())  &  (self.totaystock['Size'] == size)]
                     qty = str(len(res))
                     self.totayquantityfield.setText(qty)
                     weights = (res['Weight_g'].unique())
@@ -3331,12 +3322,8 @@ class Ui_MainWindow_client(object):
                             self.TotaWeightTextField.addItem(str(i))
                     else:  
                         self.TotaWeightTextField.clear()
-                        
-                        self.TotaWeightTextField.addItem("Select from Drop Down")            
-            
-           
-        
-        
+                        self.TotaWeightTextField.addItem("Select from Drop Down")
+             
         self.Add_Reels.clicked.connect(add_reels)
         self.Add_Rolls.clicked.connect(add_rolls)
         self.Add_Packets.clicked.connect(add_packets)
@@ -3350,33 +3337,23 @@ class Ui_MainWindow_client(object):
         self.ReelsSizeComboBox.currentTextChanged.connect(quantityreelsweightstockcheck)
         self.ReelsPaperTypeComboBox.currentTextChanged.connect(quantityreelssizestockcheck)
         #self.PacketsPaperTypeComboBox.currentTextChanged.connect(packetssizelist)
-        self.packetsize.activated.connect(totaypacketquantityweightlist)
+        self.packetsize.activated.connect(totaypacketquantityweightlist)  # totay packet both
         self.TotaSizeTextField.currentTextChanged.connect(totay_quantityweightlist)
         
-        
-        def whtsapp(customernumber,customername):
-                
-                pth = 'Cash_Bills\\'                  
-                pdf_name = "cashbill.pdf"
-                path = pth+pdf_name
-                path2 = pth
-                images = convert_from_path(path,poppler_path=r'poppler-0.68.0\bin')
-                customer_number = '+'+customernumber
-                
-                customer_name = customername
-                message = "Hello Mr. " + customer_name + " here is your bill for the date: " + str(date.today()) + ". Thank you for purchasing from us, please come back again or call us at +923244023811"
-                for i in range(len(images)):
-                    # Save pages as images in the pdf
-                        images[i].save(path2+'\\''page'+ str(i) +'.jpg', 'JPEG')
-                        pywhatkit.sendwhats_image(customer_number, str('page'+ str(i) +'.jpg'),wait_time=60)
-                        ''' if os.path2.exists('page'+ str(i) +'.jpg'):
-                                             os.remove( 'page'+ str(i) +'.jpg')'''
-                # syntax: phone number with country code, message, hour and minutes
-                Hr = int(str(datetime.datetime.now())[12])
-                Mint = int(str(datetime.datetime.now())[14]+str(datetime.datetime.now())[15])
-                Mint = Mint + 1
-                pywhatkit.sendwhatmsg(customer_number, message, Hr, Mint,wait_time=30,tab_close=True)
-        
+        def whtsapp(customernumber,reciept_number,customername):
+            pth = 'Cash_Bills\\'
+            pdf_name = str(customername) + "_" + str(reciept_number) + "_" +str(customernumber)+".pdf"          
+            path = pth+pdf_name
+            path2 = pth
+            images = convert_from_path(path,poppler_path=r'poppler-0.68.0\bin')
+            customer_number = '+'+str(customernumber)
+            customer_name = str(customername)
+            message = "Hello Mr. " + str(customer_name) + " here is your bill for the date: " + str(date.today()) + ". Thank you for purchasing from us, please come back again or call us at +923244023811"
+            for i in range(len(images)):
+                # Save pages as images in the pdf
+                    images[i].save(path2+'\\''page'+ str(i) +'.jpg', 'JPEG')
+                    pywhatkit.sendwhats_image(customer_number, str('page'+ str(i) +'.jpg'),message,wait_time=60)
+
         
         def cashbill():
             errors=[] 
@@ -3452,47 +3429,9 @@ class Ui_MainWindow_client(object):
                     
                 write_excel(clients,text,r'book.xlsx' )
                   
-                global reelsstock
-                global fluting_bareek
-                global L1
-                global fluting
-                global L1_bareek
-                global L2
-                global L2_bareek
-                global testliner
-                global testliner_bareek
-                global boxboard2_5
-                global boxboard2_5_bareek
-                global boxboard3
-                global boxboard3_bareek
-                global localkraft
-                global localkraft_bareek
-                global importedkraft
-                global importedkraft_bareek
-                global superfluting
-                global superfluting_bareek
-                global totaystock
-                
-                global reelsstock
-                global fluting_bareek
-                global L1
-                global fluting
-                global L1_bareek
-                global L2
-                global L2_bareek
-                global testliner
-                global testliner_bareek
-                global boxboard2_5
-                global boxboard2_5_bareek
-                global boxboard3
-                global boxboard3_bareek
-                global localkraft
-                global localkraft_bareek
-                global importedkraft
-                global importedkraft_bareek
-                global superfluting
-                global superfluting_bareek
-                global totaystock
+                 
+                 
+                 
                 global pdf_date
                 global pdf_client_name
                 global pdf_client_contact_number
@@ -3571,35 +3510,37 @@ class Ui_MainWindow_client(object):
                 pdf_dataframe = df.copy()
                 pdf_dataframe['Details']=pdf_dataframe['Details'].str.replace('Tota_Packets','Packets')
                 pdf_dataframe['Details']=pdf_dataframe['Details'].str.replace('Reel_Packets','Packets') 
-                write_excel( fluting, "Fluting",r'book.xlsx' )
-                write_excel( fluting_bareek, "Fluting_Bareek",r'book.xlsx')   
-                write_excel( L1, "L1",r'book.xlsx' )
-                write_excel(L1_bareek , "L1_Bareek",r'book.xlsx')
-                write_excel( L2, "L2",r'book.xlsx' )
-                write_excel( L2_bareek, "L2_Bareek",r'book.xlsx')
-                write_excel(testliner , "Test_Liner",r'book.xlsx' )
-                write_excel( testliner_bareek, "Test_Liner_Bareek",r'book.xlsx')
-                write_excel( boxboard2_5, "Box_Board_2_5_No",r'book.xlsx' )
-                write_excel( boxboard2_5_bareek, "Box_Board_2_5_No_Bareek",r'book.xlsx')
-                write_excel( boxboard3, "Box_Board_3_No",r'book.xlsx' )
-                write_excel( boxboard3_bareek, "Box_Board_3_No_Bareek",r'book.xlsx')
-                write_excel(localkraft , "Local_Kraft",r'book.xlsx' )
-                write_excel( localkraft_bareek, "Local_Kraft_Bareek",r'book.xlsx')
-                write_excel(importedkraft , "Imported_Kraft",r'book.xlsx' )
-                write_excel( importedkraft_bareek, "Imported_Kraft_Bareek",r'book.xlsx')
-                write_excel( superfluting, "Super_Fluting",r'book.xlsx' )
-                write_excel( superfluting_bareek, "Super_Fluting_Bareek",r'book.xlsx')
-                write_excel( reelsstock, "reels_stock",r'book.xlsx')
-                write_excel( totaystock, "totay",r'book.xlsx')
-                write_excel( stock_out_totay, "tota_stock_in_out",r'book.xlsx')
-                write_excel( stock_out_reels, "reels_stock_in_out",r'book.xlsx')
-                write_excel( stock_out_rolls, "rolls_stock_in_out",r'book.xlsx')
+                write_excel(CashCustomers,text,r'book.xlsx' )
+                write_excel( self.Fluting, "Fluting",r'book.xlsx' )
+                write_excel( self.Fluting_bareek, "Fluting_Bareek",r'book.xlsx')   
+                write_excel( self.L1, "L1",r'book.xlsx' )
+                write_excel(self.L1_bareek , "L1_Bareek",r'book.xlsx')
+                write_excel( self.L2, "L2",r'book.xlsx' )
+                write_excel( self.L2_Bareek, "L2_Bareek",r'book.xlsx')
+                write_excel(self.testliner , "Test_Liner",r'book.xlsx' )
+                write_excel( self.testliner_bareek, "Test_Liner_Bareek",r'book.xlsx')
+                write_excel( self.boxboard2_5, "Box_Board_2_5_No",r'book.xlsx' )
+                write_excel( self.boxboard2_5_bareek, "Box_Board_2_5_No_Bareek",r'book.xlsx')
+                write_excel( self.boxboard3, "Box_Board_3_No",r'book.xlsx' )
+                write_excel( self.boxboard3_bareek, "Box_Board_3_No_Bareek",r'book.xlsx')
+                write_excel(self.localkraft , "Local_Kraft",r'book.xlsx' )
+                write_excel( self.localkraft_bareek, "Local_Kraft_Bareek",r'book.xlsx')
+                write_excel(self.importedkraft , "Imported_Kraft",r'book.xlsx' )
+                write_excel( self.importedkraft_bareek, "Imported_Kraft_Bareek",r'book.xlsx')
+                write_excel( self.Super_Fluting, "Super_Fluting",r'book.xlsx' )
+                write_excel( self.Super_Fluting_bareek, "Super_Fluting_Bareek",r'book.xlsx')
+                write_excel( self.reelsstock, "reels_stock",r'book.xlsx')
+                write_excel( self.totaystock, "totay",r'book.xlsx')
+                write_excel( self.stock_out_totay, "tota_stock_in_out",r'book.xlsx')
+                write_excel( self.stock_out_reels, "reels_stock_in_out",r'book.xlsx')
+                write_excel( self.stock_out_rolls, "rolls_stock_in_out",r'book.xlsx')
                 msg = QMessageBox()  # create an instance of it
                 msg.setIcon(QMessageBox.Information)  # set icon
                 msg.setText("Entry Saved Successfully")  # set text
                 
                 msg.setWindowTitle("Message")  # set title
-                message = msg.exec_() 
+                message = msg.exec_()
+                 
                 
                 
                 
@@ -3700,8 +3641,36 @@ class Ui_MainWindow_client(object):
             #table.to_csv('C:\\Users\\abeer\Downloads\\Factory_management_system\\table.csv')
             #table.to_csv('table.csv')
             #print('\n\nList',mylist)
-            generate_customer_invoice(pdf_dataframe,other_list)
-            pass
+            if(len(pdf_dataframe)==0):
+                gc.collect()   
+                close_window()
+            else:
+                if (len(error) != 0):
+                    #print(errors, " erors ")
+                    msg = QMessageBox()  # create an instance of it
+                    msg.setIcon(QMessageBox.Information)  # set icon
+                    msgs = "Cannot Print Bill As there are errors"
+                    msg.setText(msgs)  # set text
+
+                    '''msg.setInformativeText()'''  # set information under the main text
+                    msg.setWindowTitle("Alert")  # set title
+                    message = msg.exec_()
+                    error = []
+                else:
+                    generate_customer_invoice(pdf_dataframe,other_list)
+                    msgBox = QMessageBox()
+                    msgBox.setIcon(QMessageBox.Question) 
+                    msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
+                    msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
+                    msgBox.setWindowTitle("WhatsApp Message Send Option")  
+                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                        
+                    returnValue = msgBox.exec()
+                    if returnValue == QMessageBox.Ok:
+                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
+                    pass
+                gc.collect()   
+                close_window()
             
 
         self.CheckOutButton.clicked.connect(cashbill) #8 spaces position ... outside cashbill func
