@@ -7,7 +7,7 @@ from datetime import date, datetime
 from math import ceil
 
 import matplotlib.pyplot as plt
- 
+import google_upload_client_bills
 import openpyxl
 import pandas as pd
 import PyQt5
@@ -46,6 +46,7 @@ pdf_rent = 0.0
 pdf_previous_balance = 0.0
 pdf_previous_bill_number = ''
 pdf_total_balance = 0.0
+pdf_client_number = 0
 pdf_dataframe = pd.DataFrame()
  
 class Ui_Form(object):
@@ -3291,9 +3292,10 @@ class Ui_MainWindow_client(object):
         self.packetsize.activated.connect(totaypacketquantityweightlist)  # totay packet both
         self.TotaSizeTextField.currentTextChanged.connect(totay_quantityweightlist)
         
-        def whtsapp(customernumber,reciept_number,customername):
-            pth = 'Cash_Bills\\'
-            pdf_name = str(customername) + "_" + str(reciept_number) + "_" +str(customernumber)+".pdf"          
+        def whtsapp(customernumber,reciept_number,customername,clint_id):
+            pth = 'Customer_Bills\\Client '
+            pth = pth + str(clint_id) + '\\'
+            pdf_name = str(reciept_number) + ".pdf"          
             path = pth+pdf_name
             path2 = pth
             images = convert_from_path(path,poppler_path=r'poppler-0.68.0\bin')
@@ -3304,7 +3306,6 @@ class Ui_MainWindow_client(object):
                 # Save pages as images in the pdf
                     images[i].save(path2+'\\'+'page'+ str(i) +'.jpg', 'JPEG')
                     pywhatkit.sendwhats_image(customer_number, str(path2+'\\'+'page'+ str(i) +'.jpg'),message,wait_time=30)
-
         
         def cashbill():
             errors=[] 
@@ -3381,7 +3382,7 @@ class Ui_MainWindow_client(object):
                   
                  
                  
-                 
+                global pdf_client_number
                 global pdf_date
                 global pdf_client_name
                 global pdf_client_contact_number
@@ -3445,7 +3446,7 @@ class Ui_MainWindow_client(object):
                 
                 CREDIT_DETAILS = self.CreditDetailsTextField.toPlainText().strip()
                 df = pd.DataFrame(slis, columns =['Details', 'Price'])
-                
+                pdf_client_number = CLIENT_ID
                 pdf_date = DATE
                 pdf_client_name = CLIENT_NAME
                 pdf_client_contact_number = CONTACT_NO
@@ -3490,24 +3491,6 @@ class Ui_MainWindow_client(object):
                 
                 msg.setWindowTitle("Message")  # set title
                 message = msg.exec_()
-                 
-                
-                
-                
-                '''super().Ui_Form.()      '''
-                #super(Ui_MainWindow_client, self).updatetable()
-                
-                
-                msgBox = QMessageBox()
-                msgBox.setIcon(QMessageBox.Question) 
-                msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
-                msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
-                msgBox.setWindowTitle("WhatsApp Message Send Option")  
-                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                
-                returnValue = msgBox.exec()
-                if returnValue == QMessageBox.Ok:
-                        whtsapp(self.contact.toPlainText().strip(),CLIENT_NAME)
                 
                 
                 
@@ -3539,6 +3522,7 @@ class Ui_MainWindow_client(object):
         
         
         def generate_cashbill_pdf():
+            global pdf_client_number
             global pdf_date
             global pdf_client_name
             global pdf_client_contact_number
@@ -3563,7 +3547,9 @@ class Ui_MainWindow_client(object):
             other_list.append(pdf_date)
             other_list.append(pdf_previous_balance)
             other_list.append(pdf_previous_bill_number)
-            other_list.append(pdf_total_balance) 
+            other_list.append(pdf_total_balance)
+            other_list.append(pdf_client_contact_number)
+            
             if(len(pdf_dataframe)==0):
                 gc.collect()   
                 close_window()
@@ -3590,8 +3576,10 @@ class Ui_MainWindow_client(object):
                         
                     returnValue = msgBox.exec()
                     if returnValue == QMessageBox.Ok:
-                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
+                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name,pdf_client_number)
                     pass
+                from google_upload_client_bills import UploadClientRecord
+                UploadClientRecord(str(other_list[11]),str(other_list[5]))
                 gc.collect()   
                 close_window()
             

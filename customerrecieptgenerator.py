@@ -16,11 +16,11 @@ import math as m
 # Previous Balance
 # Previous Bill Number
 # Total Balance
+# Client Id
 
 def generate_customer_invoice(df,other_list):
-    my_path='Customer_Bills\\'
-    #my_path = my_path + str(other_list[4]) + "\\" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
-    my_path = my_path + str(other_list[4]) + "_" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
+    my_path = 'Customer_Bills\\Client '
+    my_path = my_path + str(other_list[11]) + "\\" + str(other_list[5]) + ".pdf"
     ##############################################################################################################
     c = canvas.Canvas(my_path)#,pagesize=letter)
 
