@@ -1,8 +1,9 @@
 import json
 import requests
-headers = {"Authorization": "Bearer ya29.a0Aa4xrXOA2UpXxmWr7sl2xOTuPvD14J3tk5KgO0ke9k4vkjEu-u6XSxz42HMKby9ll6ZBAqocqxs-DH3x8hz_pqPeAaj99zIab8dDWXdsm0jdYhY0JklkfiHSSZT-hUCP0oMPzxJSzpLfRkd1N-1Dm7yt359xaCgYKATASARMSFQEjDvL9Dc-3L-BV6kDTOZ9u00xEqw0163"}
+headers = {"Authorization": "Bearer ya29.a0Aa4xrXM9bzPVDohgqLy7iQBcy96Z5aMrh1jdctEwmyM34tkhFSVGFZRsYGxsCxS35A6XinaMef0PwZJwKXeEn3CCEuaXTvMT49qKhNPWHWYRIDl-O-qxwzjb6oOs-W0EZ2m8dACepD0PzhbEB4pvoHjY5omKaCgYKATASARASFQEjDvL9CSLroRtAXP3KZePHYjp2Uw0163"}
 para = {
     "name": "BookExpense.xlsx",
+    "parents": ["1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr"]
 }
 files = {
     'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),

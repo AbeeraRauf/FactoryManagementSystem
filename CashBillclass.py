@@ -37,6 +37,8 @@ import pywhatkit
  
 
 from cashrecieptgenerator import generate_cash_reciept
+import json
+import requests
 details=[]
 '''self.reelsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','vendor','rate'],sheet_name='reels_stock')
 self.reelsstock['Weight_g']=self.reelsstock['Weight_g'].astype(int)
@@ -2967,6 +2969,22 @@ class Ui_MainWindow_cashbill(object):
                     if returnValue == QMessageBox.Ok:
                             whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
                     pass
+                headers = {"Authorization": "Bearer ya29.a0Aa4xrXM9bzPVDohgqLy7iQBcy96Z5aMrh1jdctEwmyM34tkhFSVGFZRsYGxsCxS35A6XinaMef0PwZJwKXeEn3CCEuaXTvMT49qKhNPWHWYRIDl-O-qxwzjb6oOs-W0EZ2m8dACepD0PzhbEB4pvoHjY5omKaCgYKATASARASFQEjDvL9CSLroRtAXP3KZePHYjp2Uw0163"}
+                upload_name = str(other_list[4]) + "_" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
+                para = {
+                    "name": upload_name,
+                    "parents": ["1-5trWxCxRS_6gXq0Xe2Dq4O12U8JPjs3"]
+                    }
+                filename = "Cash_Bills/" +str(upload_name)
+                files = {
+                    'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
+                    'file': open(filename, "rb")
+                    }
+                r = requests.post(
+                    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+                    headers=headers,
+                    files=files
+                    )
                 gc.collect()   
                 close_window()
                 
