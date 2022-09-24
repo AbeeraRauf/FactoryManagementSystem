@@ -3352,7 +3352,7 @@ class Ui_MainWindow_client(object):
             for i in range(len(images)):
                 # Save pages as images in the pdf
                     images[i].save(path2+'\\''page'+ str(i) +'.jpg', 'JPEG')
-                    pywhatkit.sendwhats_image(customer_number, str('page'+ str(i) +'.jpg'),message,wait_time=60)
+                    pywhatkit.sendwhats_image(customer_number, str('page'+ str(i) +'.jpg'),message,wait_time=30)
 
         
         def cashbill():

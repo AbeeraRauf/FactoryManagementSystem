@@ -2638,9 +2638,9 @@ class Ui_MainWindow_cashbill(object):
         def cashbill():
             global error
             global CashCustomers
-            self.CreditDetailsTextField.setText("Cash")
-            #if self.CreditDetailsTextField.toPlainText().strip() == "":
-            #    error.append("Wrong input in Credit Details Text Field")
+            
+            if self.CreditDetailsTextField.toPlainText().strip() == "":
+                error.append("Wrong input in Credit Details Text Field")
             
             if (self.CreditTextField.toPlainText().strip() == "" )or( not (bool(re.match('^\d+?\.\d+?|\d+$', self.CreditTextField.toPlainText().strip())))):
                 error.append("Wrong input in Credit Text Field")
