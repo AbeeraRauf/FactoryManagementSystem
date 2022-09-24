@@ -17,7 +17,8 @@ from factorycustomers import Ui_Form
 from dailyreportv2 import Ui_Dialog
 from expense import expenses_form
 import openpyxl 
-
+import google_upload_bookexcel
+ 
 import reportlab
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
@@ -109,10 +110,19 @@ class Ui_MainWindow(object):
         self.groupBox_5.setFlat(False)
         self.stockupdation = QtWidgets.QPushButton(self.groupBox_5)
         self.stockupdation.setObjectName("stockupdation")
-        self.stockupdation.setGeometry(QtCore.QRect(140, 110, 191, 81))
+        self.stockupdation.setGeometry(QtCore.QRect(150, 60, 191, 81))
         self.stockupdation.setFont(font2)
         self.stockupdation.setStyleSheet( "background-color:rgb(0, 0, 81) ;\n"
 "color:rgb(255,255, 255) ;")
+        
+        
+        self.google_updation = QtWidgets.QPushButton(self.groupBox_5)
+        self.google_updation.setObjectName("google_updation")
+        self.google_updation.setGeometry(QtCore.QRect(150, 200, 191, 81))
+        self.google_updation.setFont(font2)
+        self.google_updation.setStyleSheet( "background-color:rgb(0, 0, 81) ;\n"
+"color:rgb(255,255, 255) ;")
+        
         
         
         self.groupBox_9 = QtWidgets.QGroupBox(self.centralwidget)
@@ -172,7 +182,7 @@ class Ui_MainWindow(object):
         self.exp_btn.setText(QtCore.QCoreApplication.translate("MainWindow", "Expenses Record", None))
         self.groupBox_9.setTitle(QtCore.QCoreApplication.translate("MainWindow", "Expenditures", None))
         
-        
+        self.google_updation.setText(QtCore.QCoreApplication.translate("MainWindow", "Record Backup", None))
         self.stockupdation.setText(QtCore.QCoreApplication.translate("MainWindow", "Stock Updation", None))
         self.textBrowser_3.setHtml(QtCore.QCoreApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -216,6 +226,13 @@ class Ui_MainWindow(object):
             self.ui= Ui_Form3()
             self.ui.setupUi(self.window)
             self.window.showMaximized()
+            
+        def googleUpdate():
+            self.window=QtWidgets.QMainWindow()
+            from google_upload_bookexcel import bookExcel, bookExpense
+            bookExcel()
+            bookExpense()
+        self.google_updation.clicked.connect(googleUpdate)         
         self.stockinout.clicked.connect(openstockinfo)     
         self.cashbill.clicked.connect(opencashbill) 
         #self.clientdetails.clicked.connect()
