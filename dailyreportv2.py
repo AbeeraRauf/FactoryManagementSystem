@@ -89,8 +89,16 @@ class Ui_Dialog(object):
         self.printbutton.setText("Print")
          
         self.printbutton.setFont(font)
-        self.printbutton.setStyleSheet( "background-color:rgb(10, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.printbutton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.textBrowser = QtWidgets.QTextBrowser(Dialog)
         self.textBrowser.setObjectName( "textBrowser")
@@ -111,8 +119,16 @@ class Ui_Dialog(object):
         self.todaysrecordbutton.setObjectName("todaysrecordbutton")
         self.todaysrecordbutton.setGeometry(QtCore.QRect(1080, 47, 100, 25))
         self.todaysrecordbutton.setFont(font)
-        self.todaysrecordbutton.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.todaysrecordbutton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.label_7 = QtWidgets.QLabel(self.addclientsgroupbox)
         self.label_7.setObjectName("label_7")
         self.label_7.setEnabled(False)
@@ -144,8 +160,16 @@ class Ui_Dialog(object):
         self.datebyrange.setObjectName("daterange")
         self.datebyrange.setGeometry(QtCore.QRect(140, 85, 391, 31))
         self.datebyrange.setFont(font)
-        self.datebyrange.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.datebyrange.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.tableView =QtWidgets.QTableWidget(Dialog)
         self.tableView.setGeometry(QtCore.QRect(10,230,1340,400))
         self.tableView.setObjectName("tableView")

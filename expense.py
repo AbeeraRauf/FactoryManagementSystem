@@ -45,8 +45,16 @@ class expenses_form(object):
         font.setBold(True)
         font.setWeight(75)
         self.submit_btn.setFont(font)
-        self.submit_btn.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.submit_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.submit_btn.setObjectName("submit_btn")
         
         self.item_label_40 = QtWidgets.QLabel(Form)
@@ -82,8 +90,16 @@ class expenses_form(object):
         font.setBold(True)
         font.setWeight(75)
         self.del_entry_btn.setFont(font)
-        self.del_entry_btn.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.del_entry_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.del_entry_btn.setObjectName("del_entry_btn")
         '''self.groupBox = QtWidgets.QGroupBox(Form)
         self.groupBox.setGeometry(QtCore.QRect(10, 80, 291, 51))
@@ -114,8 +130,16 @@ class expenses_form(object):
         font.setBold(True)
         font.setWeight(75)
         self.show_btn.setFont(font)
-        self.show_btn.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.show_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.show_btn.setObjectName("show_btn")
         self.clear_btn = QtWidgets.QPushButton(Form)
         self.clear_btn.setGeometry(QtCore.QRect(200, 170, 131, 41))
@@ -124,8 +148,16 @@ class expenses_form(object):
         font.setBold(True)
         font.setWeight(75)
         self.clear_btn.setFont(font)
-        self.clear_btn.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.clear_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.clear_btn.setObjectName("clear_btn")
         self.detailcontainer = QtWidgets.QGroupBox(Form)
         self.detailcontainer.setGeometry(QtCore.QRect(660, 280, 401, 241))
@@ -145,8 +177,16 @@ class expenses_form(object):
         font.setWeight(75)
         font.setKerning(False)
         self.add_btn.setFont(font)
-        self.add_btn.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.add_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.add_btn.setObjectName("add_btn")
         self.rs_field = QtWidgets.QTextEdit(self.detailcontainer)
         self.rs_field.setGeometry(QtCore.QRect(110, 100, 271, 41))

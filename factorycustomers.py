@@ -95,8 +95,16 @@ class Ui_Form(object):
         font1.setBold(True)
         font1.setWeight(75)
         self.searchbutton.setFont(font1)
-        self.searchbutton.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.searchbutton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         font11 = QtGui.QFont()
         font11.setPointSize(14)
         font11.setBold(True)
@@ -116,8 +124,16 @@ class Ui_Form(object):
         self.addnewbill.setObjectName(u"addnewbill")
         self.addnewbill.setGeometry(QtCore.QRect(800, 790, 140,41))
         self.addnewbill.setFont(font1)
-        self.addnewbill.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.addnewbill.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.addclientsgroupbox = QtWidgets.QGroupBox(Form)
         self.addclientsgroupbox.setObjectName(u"addclientsgroupbox")
         self.addclientsgroupbox.setEnabled(True)
@@ -174,14 +190,30 @@ class Ui_Form(object):
         self.addnewclient.setObjectName(u"addnewclient")
         self.addnewclient.setGeometry(QtCore.QRect(220, 200, 161, 51))
         self.addnewclient.setFont(font1)
-        self.addnewclient.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.addnewclient.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.resettable = QtWidgets.QPushButton(Form)
         self.resettable.setObjectName(u"resettable")
         self.resettable.setGeometry(QtCore.QRect(600, 790, 131, 41))
         self.resettable.setFont(font1)
-        self.resettable.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.resettable.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.textBrowser = QtWidgets.QTextBrowser(Form)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setEnabled(False)
@@ -217,8 +249,16 @@ class Ui_Form(object):
         self.printbutton.setObjectName("printbutton")
         self.printbutton.setText("Print")
         self.printbutton.setFont(font1)
-        self.printbutton.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.printbutton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.printbutton.setVisible(True)
 
         self.retranslateUi(Form)
@@ -750,8 +790,16 @@ class Ui_MainWindow_client(object):
         self.Add_Rolls.setObjectName(u"Add_Rolls")
         self.Add_Rolls.setGeometry(QtCore.QRect(300, 220, 111, 51))
         self.Add_Rolls.setFont(font2)
-        self.Add_Rolls.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Rolls.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
          
         self.groupBox3 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox3.setObjectName(u"groupBox3")
@@ -909,8 +957,16 @@ class Ui_MainWindow_client(object):
         self.Add_Reels.setObjectName(u"Add_Reels")
         self.Add_Reels.setGeometry(QtCore.QRect(280, 230, 111, 51))
         self.Add_Reels.setFont(font2)
-        self.Add_Reels.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Reels.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.TotayContainer = QtWidgets.QGroupBox(self.centralwidget)
         self.TotayContainer.setObjectName(u"TotayContainer")
         self.TotayContainer.setGeometry(QtCore.QRect(752, 240, 581, 401))
@@ -1020,8 +1076,16 @@ class Ui_MainWindow_client(object):
         self.Add_Totay.setGeometry(QtCore.QRect(260,330,111,51 ))
         self.Add_Totay.setFont(font2)
         self.Add_Totay.setText('Add')
-        self.Add_Totay.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Totay.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.TotaRateTextField = QtWidgets.QTextEdit(self.TotayContainer)
         self.TotaRateTextField.setObjectName(u"TotaRateTextField")
@@ -1055,8 +1119,16 @@ class Ui_MainWindow_client(object):
         self.Add_Nali.setObjectName(u"Add_Nali")
         self.Add_Nali.setGeometry(QtCore.QRect(140, 150, 111, 51))
         self.Add_Nali.setFont(font2)
-        self.Add_Nali.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Nali.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.NaliRateTextField = QtWidgets.QTextEdit(self.NaliContainer)
         self.NaliRateTextField.setObjectName(u"NaliRateTextField")
         self.NaliRateTextField.setGeometry(QtCore.QRect(210, 90, 111, 31))
@@ -1089,8 +1161,16 @@ class Ui_MainWindow_client(object):
         self.Add_Jutta.setObjectName(u"Add_Jutta")
         self.Add_Jutta.setGeometry(QtCore.QRect(150,180, 111, 51))
         self.Add_Jutta.setFont(font2)
-        self.Add_Jutta.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Jutta.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.JuttaRateTextField = QtWidgets.QTextEdit(self.JuttaContainer)
         self.JuttaRateTextField.setObjectName(u"JuttaRateTextField")
@@ -1126,8 +1206,16 @@ class Ui_MainWindow_client(object):
         self.Add_Raddi.setObjectName(u"Add_Raddi")
         self.Add_Raddi.setGeometry(QtCore.QRect(180, 190, 111, 51))
         self.Add_Raddi.setFont(font2)
-        self.Add_Raddi.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Raddi.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.RaddiRateTextField = QtWidgets.QTextEdit(self.RaddiContainer)
         self.RaddiRateTextField.setObjectName(u"RaddiRateTextField")
         self.RaddiRateTextField.setGeometry(QtCore.QRect(190, 120, 121, 31))
@@ -1219,8 +1307,16 @@ class Ui_MainWindow_client(object):
         self.Add_Packets.setObjectName(u"Add_Packets")
         self.Add_Packets.setGeometry(QtCore.QRect(300, 420, 111, 51))
         self.Add_Packets.setFont(font2)
-        self.Add_Packets.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Packets.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.PacketsGrammage = QtWidgets.QComboBox(self.PacketsContainer)
         self.PacketsGrammage.setObjectName(u"PacketsGrammage")
         self.PacketsGrammage.setGeometry(QtCore.QRect(460, 360, 191, 31))
@@ -1308,174 +1404,21 @@ class Ui_MainWindow_client(object):
         self.item_label_35.setAlignment(QtCore.Qt.AlignCenter)
         self.item_label_35.setWordWrap(True)
         
-        '''
-         
-        self.PacketsContainer = QtWidgets.QGroupBox(self.centralwidget)
-        self.PacketsContainer.setGeometry(QtCore.QRect(1000,300, 701, 501))
-        self.PacketsContainer.setFont(font2)
-        self.PacketsContainer.setStyleSheet(u"background-color: rgb(126, 255, 247);\n"
-"color:rgb(0,0,81) ;")
-        self.PacketsContainer.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.PacketsContainer.setFlat(False)
-        self.PacketsNoOfPackets = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.PacketsNoOfPackets.setObjectName(u"PacketsNoOfPackets")
-        self.PacketsNoOfPackets.setGeometry(QtCore.QRect(550, 130, 101, 31))
-        self.PacketsNoOfPackets.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.item_label_14 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_14.setObjectName(u"item_label_14")
-        self.item_label_14.setGeometry(QtCore.QRect(340, 110, 141, 71))
-        self.item_label_14.setFont(font1)
-        self.item_label_14.setTextFormat(QtCore.Qt.RichText)
-        self.item_label_14.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_14.setWordWrap(True)
-        self.item_label_13 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_13.setObjectName(u"item_label_13")
-        self.item_label_13.setGeometry(QtCore.QRect(30, 200, 71, 31))
-        self.item_label_13.setFont(font1)
-        self.item_label_13.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label_13.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_13.setWordWrap(True)
-        self.item_label_13.setText("Type:")
-        
-        self.PacketsRate = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.PacketsRate.setObjectName(u"PacketsRate")
-        self.PacketsRate.setGeometry(QtCore.QRect(240,240 , 111, 31))
-        self.PacketsRate.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.PacketsPaperTypeComboBox = QtWidgets.QComboBox(self.PacketsContainer)
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.addItem("")
-        self.PacketsPaperTypeComboBox.setObjectName(u"PacketsPaperTypeComboBox")
-        self.PacketsPaperTypeComboBox.setGeometry(QtCore.QRect(130,130, 191, 31))
-        self.PacketsPaperTypeComboBox.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.item_label_31 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_31.setObjectName(u"item_label_31")
-        self.item_label_31.setGeometry(QtCore.QRect(30, 200, 71, 31))
-        self.item_label_31.setFont(font1)
-        self.item_label_31.setTextFormat(QtCore.Qt.RichText)
-        self.item_label_31.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_31.setWordWrap(True)
-        self.Add_Packets = QtWidgets.QPushButton(self.PacketsContainer)
-        self.Add_Packets.setObjectName(u"Add_Packets")
-        self.Add_Packets.setGeometry(QtCore.QRect(300, 420, 111, 51))
-        self.Add_Packets.setFont(font2)
-        self.Add_Packets.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
-        self.PacketsGrammage = QtWidgets.QComboBox(self.PacketsContainer)
-        self.PacketsGrammage.setObjectName(u"PacketsGrammage")
-        self.PacketsGrammage.setGeometry(QtCore.QRect(460,280,191,31))
-        self.PacketsGrammage.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.item_label_33 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_33.setObjectName(u"item_label_33")
-        self.item_label_33.setGeometry(QtCore.QRect(360,270,81,51))
-        self.item_label_33.setFont(font1)
-        self.item_label_33.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label_33.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_33.setWordWrap(True)
-        
-        self.packetgram_m = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.packetgram_m.setObjectName(u"packetgram_m")
-        self.packetgram_m.setGeometry(QtCore.QRect(550,200, 101, 31))
-        self.packetgram_m.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.packetgram_m_label = QtWidgets.QLabel(self.PacketsContainer)
-        self.packetgram_m_label.setObjectName(u"packetgram_m_label")
-        self.packetgram_m_label.setGeometry(QtCore.QRect(350,190,141, 51))
-        self.packetgram_m_label.setFont(font13)
-        self.packetgram_m_label.setTextFormat(QtCore.Qt.PlainText)
-        self.packetgram_m_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.packetgram_m_label.setWordWrap(True)
-        self.packetgram_m_label.setText("Grammage:") 
-        self.packetgram_m.setText("") 
-        
-        self.item_label_36 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_36.setObjectName(u"sl")
-        self.item_label_36.setGeometry(QtCore.QRect(20,270,91,41))
-        self.item_label_36.setFont(font12)
-        self.item_label_36.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label_36.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_36.setWordWrap(True)
-        self.item_label_36.setText("Tota/Reels:") 
-        
-        
-        
-        self.PacketsTotaDetails = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.PacketsTotaDetails.setObjectName(u"PacketsTotaDetails")
-        self.PacketsTotaDetails.setGeometry(QtCore.QRect(220,360, 101, 31))
-        self.PacketsTotaDetails.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.PacketsTotaDetails.setEnabled(False)
-        self.item_label_16 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_16.setObjectName(u"item_label_16")
-        self.item_label_16.setGeometry(QtCore.QRect(30, 200, 68, 24))
-        self.item_label_16.setFont(font1)
-        self.item_label_16.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label_16.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_16.setWordWrap(True)
-        self.item_label_20 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_20.setObjectName(u"item_label_20")
-        self.item_label_20.setGeometry(QtCore.QRect(10,350, 151, 61))
-        self.item_label_20.setFont(font1)
-        self.item_label_20.setTextFormat(QtCore.Qt.RichText)
-        self.item_label_20.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_20.setWordWrap(True)
-        self.PacketsWidth = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.PacketsWidth.setObjectName(u"PacketsWidth")
-        self.PacketsWidth.setGeometry(QtCore.QRect(160, 200, 191, 31))
-        self.PacketsWidth.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        
-        
-        self.packetsize = QtWidgets.QComboBox(self.PacketsContainer)
-        self.packetsize.setObjectName(u"packetsize")
-        self.packetsize.setGeometry(QtCore.QRect(460, 360, 191, 31))
-        self.packetsize.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.packetsize.addItem("")
-        self.items = QtWidgets.QComboBox(self.PacketsContainer)
-        self.items.setObjectName(u"items")
-        self.items.setGeometry(QtCore.QRect(130,280,191,31))
-        self.items.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.items.addItem("")
-        self.items.addItem("")
-        self.items.addItem("")
-        self.item_36 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_36.setObjectName(u"item_36")
-        self.item_36.setGeometry(QtCore.QRect(20,270, 91, 41))
-        self.item_36.setFont(font1)
-        self.item_36.setTextFormat(QtCore.Qt.PlainText)
-        self.item_36.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_36.setWordWrap(True)
-        
-        self.item_label_35 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label_35.setObjectName(u"item_label_35")
-        self.item_label_35.setGeometry(QtCore.QRect(360,350, 51, 41))
-        self.item_label_35.setFont(font1)
-        self.item_label_35.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label_35.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label_35.setWordWrap(True)
-        
-        self.item_label2 = QtWidgets.QLabel(self.PacketsContainer)
-        self.item_label2.setObjectName(u"item_label2")
-        self.item_label2.setGeometry(QtCore.QRect(30, 40, 81, 51))
-        self.item_label2.setFont(font1)
-        self.item_label2.setTextFormat(QtCore.Qt.PlainText)
-        self.item_label2.setAlignment(QtCore.Qt.AlignCenter)
-        self.item_label2.setWordWrap(True)
-        self.Packetslength = QtWidgets.QTextEdit(self.PacketsContainer)
-        self.Packetslength.setObjectName(u"Packetslength")
-        self.Packetslength.setGeometry(QtCore.QRect(130,150, 191, 31))
-        self.Packetslength.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        ''' 
+      
         self.CheckOutButton = QtWidgets.QPushButton(self.centralwidget)
         self.CheckOutButton.setGeometry(QtCore.QRect(512, 700, 231, 71))
         self.CheckOutButton.setObjectName("CheckOutButton")
         self.CheckOutButton.setFont(font2)
-        self.CheckOutButton.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.CheckOutButton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.textBrowser_3 = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser_3.setObjectName(u"textBrowser_3")
         self.textBrowser_3.setEnabled(False)
@@ -1557,7 +1500,7 @@ class Ui_MainWindow_client(object):
         self.rcp_no.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         
         clientssheets=pd.read_excel('book.xlsx', index_col=None,sheet_name=None )
-        toremove=['reels_stock_in_out','tota_stock_in_out','rolls_stock_in_out','client info','rolls_stock','reels_stock','totay','Fluting', 'Fluting_Bareek', 'L1', 'L1_Bareek', 'L2', 'L2_Bareek', 'Test_Liner', 'Test_Liner_Bareek', 'Box_Board_2_5_No', 'Box_Board_2_5_No_Bareek', 'Box_Board_3_No', 'Box_Board_3_No_Bareek', 'Local_Kraft', 'Local_Kraft_Bareek', 'Imported_Kraft', 'Imported_Kraft_Bareek', 'Super_Fluting', 'Super_Fluting_Bareek']
+        toremove=['reels_stock_in_out','tota_stock_in_out','rolls_stock_in_out','rolls_stock','reels_stock','totay','Fluting', 'Fluting_Bareek', 'L1', 'L1_Bareek', 'L2', 'L2_Bareek', 'Test_Liner', 'Test_Liner_Bareek', 'Box_Board_2_5_No', 'Box_Board_2_5_No_Bareek', 'Box_Board_3_No', 'Box_Board_3_No_Bareek', 'Local_Kraft', 'Local_Kraft_Bareek', 'Imported_Kraft', 'Imported_Kraft_Bareek', 'Super_Fluting', 'Super_Fluting_Bareek']
  
         sheets=[]
         for i in clientssheets.keys():
@@ -1619,8 +1562,16 @@ class Ui_MainWindow_client(object):
         self.DELETEROWS.setObjectName("DELETE ENTRY")
         self.DELETEROWS.setText('Delete Entry')
         self.DELETEROWS.setFont(font2)
-        self.DELETEROWS.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.DELETEROWS.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setEnabled(False)
@@ -3386,6 +3337,7 @@ class Ui_MainWindow_client(object):
                 '''msg.setInformativeText()'''  # set information under the main text
                 msg.setWindowTitle("Alert")  # set title
                 message=msg.exec_()
+                
             if(len(errors)==0):
                 totalrows = self.cashbillDetailstable.rowCount()
                 updated1 = ''
@@ -3402,9 +3354,7 @@ class Ui_MainWindow_client(object):
                 #existCLIENT =  clients [clients['CONTACT_NO'] == CONTACT_NO]
                  
                 
-                updated=updated1.replace(",", " ");
-                 
-                
+                updated=updated1.replace(",", " ")
                 DETAILS_OF_BILL=str(updated)
 
                 RECIEPT_NUMBER=self.rcp_no.toPlainText().strip()
@@ -3510,7 +3460,7 @@ class Ui_MainWindow_client(object):
                 pdf_dataframe = df.copy()
                 pdf_dataframe['Details']=pdf_dataframe['Details'].str.replace('Tota_Packets','Packets')
                 pdf_dataframe['Details']=pdf_dataframe['Details'].str.replace('Reel_Packets','Packets') 
-                write_excel(CashCustomers,text,r'book.xlsx' )
+                 
                 write_excel( self.Fluting, "Fluting",r'book.xlsx' )
                 write_excel( self.Fluting_bareek, "Fluting_Bareek",r'book.xlsx')   
                 write_excel( self.L1, "L1",r'book.xlsx' )
@@ -3570,7 +3520,6 @@ class Ui_MainWindow_client(object):
                 self.RentTextField.setText('0')
                 self.CreditTextField.setText('0')
                 self.CreditDetailsTextField.setText('')
-                
                 self.itemListComboBox.setCurrentIndex(0)
                 self.reset_reels_container()
                 self.reset_packets_container()
@@ -3601,19 +3550,7 @@ class Ui_MainWindow_client(object):
             global pdf_previous_balance
             global pdf_previous_bill_number
             global pdf_total_balance
-            global pdf_dataframe
-            
-            # Rent
-            # Credit Details
-            # Credit
-            # Debit
-            # Client Name
-            # Reciept Number
-            # Contact Number
-            # Date
-            # Previous Balance
-            # Previous Bill Number
-            # Total Balance
+            global pdf_dataframe  
             
             other_list=[]
             other_list.append(pdf_rent)
@@ -3626,21 +3563,7 @@ class Ui_MainWindow_client(object):
             other_list.append(pdf_date)
             other_list.append(pdf_previous_balance)
             other_list.append(pdf_previous_bill_number)
-            other_list.append(pdf_total_balance)
-            
-            
-            #rowscount=self.cashbillDetailstable.rowCount()
-            #headercount =  self.cashbillDetailstable.columnCount()
-            #table=pd.DataFrame(columns=[self.cashbillDetailstable.horizontalHeaderItem(i).text() for i in range(headercount) ],
-            #                index=[x for x in range(rowscount)])
-            #for row in range(rowscount):
-            #    for col in range(headercount):
-            #        headertext =  self.cashbillDetailstable.horizontalHeaderItem(col).text()
-            #        cell =  self.cashbillDetailstable.item(row, col).text()  # get cell at row, col
-            #        table[headertext][row]=cell
-            #table.to_csv('C:\\Users\\abeer\Downloads\\Factory_management_system\\table.csv')
-            #table.to_csv('table.csv')
-            #print('\n\nList',mylist)
+            other_list.append(pdf_total_balance) 
             if(len(pdf_dataframe)==0):
                 gc.collect()   
                 close_window()

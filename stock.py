@@ -124,8 +124,16 @@ class Ui_Form2(object):
         self.Show_stock.setObjectName("Show_stock")
         self.Show_stock.setGeometry(QtCore.QRect(280, 50, 131, 41))
         self.Show_stock.setFont(font)
-        self.Show_stock.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Show_stock.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.totaStockbutton = QtWidgets.QRadioButton(self.search_3)
         self.totaStockbutton.setObjectName("RollsStockbutton")
         self.totaStockbutton.setGeometry(QtCore.QRect(50, 110, 131, 20))
@@ -150,8 +158,16 @@ class Ui_Form2(object):
         self.search_stock.setObjectName("search_stock")
         self.search_stock.setGeometry(QtCore.QRect(240, 200, 131, 41))
         self.search_stock.setFont(font1)
-        self.search_stock.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.search_stock.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.label_2 = QtWidgets.QLabel(self.search_2)
         self.label_2.setGeometry(QtCore.QRect(40, 130, 141, 41))
         self.label_2.setObjectName("label_2")
@@ -160,8 +176,16 @@ class Ui_Form2(object):
         self.delete_stock.setGeometry(QtCore.QRect(90, 200, 121, 41))
         self.delete_stock.setObjectName("delete_stock")
         self.delete_stock.setFont(font1)
-        self.delete_stock.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.delete_stock.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.itemtype_search = QtWidgets.QComboBox(self.search_2)
         self.itemtype_search.addItem("")
         self.itemtype_search.setObjectName("itemtypesearch")
@@ -198,8 +222,16 @@ class Ui_Form2(object):
         self.save_data.setObjectName("save")
         self.save_data.setGeometry(QtCore.QRect(280, 110, 131, 41))
         self.save_data.setFont(font)
-        self.save_data.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.save_data.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.sizelabel = QtWidgets.QLabel(self.add)
         self.sizelabel.setObjectName( "size")

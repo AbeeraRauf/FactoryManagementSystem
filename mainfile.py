@@ -61,8 +61,17 @@ class Ui_MainWindow(object):
         font1.setItalic(False)
         font1.setWeight(75)
         self.cashbill.setFont(font1)
-        self.cashbill.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.cashbill.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                          
+                             )
           
          
         self.customers =QtWidgets. QPushButton(self.groupBox)
@@ -73,8 +82,15 @@ class Ui_MainWindow(object):
         font2.setBold(True)
         font2.setWeight(75)
         self.customers.setFont(font2)
-        self.customers.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.customers.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}")
         self.groupBox_4 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_4.setObjectName("groupBox_4")
         self.groupBox_4.setGeometry(QtCore.QRect(845, 150, 471, 311))
@@ -87,8 +103,17 @@ class Ui_MainWindow(object):
         #sizePolicy.setHeightForWidth(self.dailyreport.sizePolicy().hasHeightForWidth())
          
         self.dailyreport.setFont(font2)
-        self.dailyreport.setStyleSheet( "background-color:rgb(0, 0, 81) ;\n""color:rgb(255,255, 255) ;")
-                                       
+        self.dailyreport.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                          
+                             )
                                        
         self.stockinout = QtWidgets.QPushButton(self.groupBox_4)
         self.stockinout.setObjectName("dailyreport")
@@ -96,8 +121,17 @@ class Ui_MainWindow(object):
         #sizePolicy.setHeightForWidth(self.dailyreport.sizePolicy().hasHeightForWidth())
          
         self.stockinout.setFont(font2)
-        self.stockinout.setStyleSheet("background-color:rgb(0, 0, 81) ;\n"  
-                                      "color:rgb(255,255, 255) ;")
+        self.stockinout.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                          
+                             )
         self.groupBox_5 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_5.setObjectName( "groupBox_5")
         self.groupBox_5.setGeometry(QtCore.QRect(845,505, 471, 311))
@@ -120,8 +154,17 @@ class Ui_MainWindow(object):
         self.google_updation.setObjectName("google_updation")
         self.google_updation.setGeometry(QtCore.QRect(150, 200, 191, 81))
         self.google_updation.setFont(font2)
-        self.google_updation.setStyleSheet( "background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.google_updation.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                          
+                             )
         
         
         
@@ -139,8 +182,20 @@ class Ui_MainWindow(object):
         self.exp_btn.setObjectName("exp_btn")
         self.exp_btn.setGeometry(QtCore.QRect(140, 110, 191, 81))
         self.exp_btn.setFont(font2)
-        self.exp_btn.setStyleSheet( "background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.exp_btn.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
+
+
+
+ 
              
          
         self.textBrowser_3 = QtWidgets.QTextBrowser(self.centralwidget)

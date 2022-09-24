@@ -40,56 +40,7 @@ from cashrecieptgenerator import generate_cash_reciept
 import json
 import requests
 details=[]
-'''self.reelsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','vendor','rate'],sheet_name='reels_stock')
-self.reelsstock['Weight_g']=self.reelsstock['Weight_g'].astype(int)
-vendorg=[]
-self.totaystock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','detail','rate'],sheet_name='totay')
-self.totaystock['Weight_g']=self.totaystock['Weight_g'].astype(int)
-
-self.rollsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['ID','Type','Rate','Size','Description','Quantity'],sheet_name='rolls_stock')
-self.Fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.FlutingID','Size','Quantity'],sheet_name='self.Fluting')
-self.Fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.FlutingBID','Size','Quantity'],sheet_name='Fluting_Bareek')
-self.L1 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.L1ID','Size','Quantity'],sheet_name='self.L1')
-self.L1_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.L1BID','Size','Quantity'],sheet_name='self.L1_Bareek')
-self.L2 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.L2ID','Size','Quantity'],sheet_name='self.L2')
-self.L2_Bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['self.L2BID','Size','Quantity'],sheet_name='self.L2_Bareek')
-self.testliner = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLID','Size','Quantity'],sheet_name='Test_Liner')
-self.testliner_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['TLBID','Size','Quantity'],sheet_name='Test_Liner_Bareek')
-self.boxboard2_5 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25ID','Size','Quantity'],sheet_name='Box_Board_2_5_No')
-self.boxboard2_5_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB25BID','Size','Quantity'],sheet_name='Box_Board_2_5_No_Bareek')
-self.boxboard3 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3ID','Size','Quantity'],sheet_name='Box_Board_3_No')
-self.boxboard3_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['BB3BID','Size','Quantity'],sheet_name='Box_Board_3_No_Bareek')
-self.localkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKID','Size','Quantity'],sheet_name='Local_Kraft')
-self.localkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['LKBID','Size','Quantity'],sheet_name='Local_Kraft_Bareek')
-self.importedkraft = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KID','Size','Quantity'],sheet_name='Imported_Kraft')
-self.importedkraft_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['KBID','Size','Quantity'],sheet_name='Imported_Kraft_Bareek')
-self.Super_Fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFID','Size','Quantity'],sheet_name='Super_.Fluting')
-self.Super_Fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFBID','Size','Quantity'],sheet_name='Super_Fluting_Bareek')
-self.rollsquantitylist = [self.Fluting['Quantity'].sum(skipna=True),]
-a = list()
-a.append(self.Fluting['Quantity'].sum(skipna=True))
-a.append(self.Fluting_bareek['Quantity'].sum(skipna=True))
-a.append(self.L1['Quantity'].sum(skipna=True))
-a.append(self.L1_bareek['Quantity'].sum(skipna=True))
-a.append(self.L2['Quantity'].sum(skipna=True))
-a.append(self.L2_Bareek['Quantity'].sum(skipna=True))
-a.append(self.testliner['Quantity'].sum(skipna=True))
-a.append(self.testliner_bareek['Quantity'].sum(skipna=True))
-a.append(self.boxboard2_5['Quantity'].sum(skipna=True))
-a.append(self.boxboard2_5_bareek['Quantity'].sum(skipna=True))
-a.append(self.boxboard3['Quantity'].sum(skipna=True))
-a.append(self.boxboard3_bareek['Quantity'].sum(skipna=True))
-a.append(self.localkraft['Quantity'].sum(skipna=True))
-a.append(self.localkraft_bareek['Quantity'].sum(skipna=True))
-a.append(self.importedkraft['Quantity'].sum(skipna=True))
-a.append(self.importedkraft_bareek['Quantity'].sum(skipna=True))
-a.append(self.Super_Fluting['Quantity'].sum(skipna=True))
-a.append(self.Super_Fluting_bareek['Quantity'].sum(skipna=True))
-self.rollsstock['Quantity']=a
-stock_out_rolls = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','quantity','quantity_in_stock'],sheet_name='rolls_stock_in_out')
-self.stock_out_reels = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='reels_stock_in_out')
-self.stock_out_totay = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='tota_stock_in_out')
- '''
+ 
 CashCustomers = pd.read_excel(r'book.xlsx', index_col=None, sheet_name='cash table',  usecols=['DATE', 'RECIEPT_NUMBER', 'CLIENT_ID', 'CLIENT_NAME',
                                                        'CONTACT_NO', 'DETAILS_OF_BILL', 'DEBIT', 'CREDIT',
                                                        'CREDIT_DETAILS', 'RENT', 'BALANCE'])
@@ -283,8 +234,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Rolls.setObjectName(u"Add_Rolls")
         self.Add_Rolls.setGeometry(QtCore.QRect(300, 220, 111, 51))
         self.Add_Rolls.setFont(font2)
-        self.Add_Rolls.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Rolls.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.item_label_19 = QtWidgets.QLabel(self.RollsContainer)
         self.item_label_19.setObjectName(u"item_label_19")
         self.item_label_19.setGeometry(QtCore.QRect(330, 30, 171, 61))
@@ -392,8 +351,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Reels.setObjectName(u"Add_Reels")
         self.Add_Reels.setGeometry(QtCore.QRect(280, 230, 111, 51))
         self.Add_Reels.setFont(font2)
-        self.Add_Reels.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Reels.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.TotayContainer = QtWidgets.QGroupBox(self.centralwidget)
         self.TotayContainer.setObjectName(u"TotayContainer")
         self.TotayContainer.setGeometry(QtCore.QRect(775, 240, 581, 401))
@@ -502,8 +469,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Totay.setGeometry(QtCore.QRect(260,330,111,51 ))
         self.Add_Totay.setFont(font2)
         self.Add_Totay.setText('Add')
-        self.Add_Totay.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Totay.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.TotaRateTextField = QtWidgets.QTextEdit(self.TotayContainer)
         self.TotaRateTextField.setObjectName(u"TotaRateTextField")
@@ -537,8 +512,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Nali.setObjectName(u"Add_Nali")
         self.Add_Nali.setGeometry(QtCore.QRect(140, 150, 111, 51))
         self.Add_Nali.setFont(font2)
-        self.Add_Nali.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Nali.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.NaliRateTextField = QtWidgets.QTextEdit(self.NaliContainer)
         self.NaliRateTextField.setObjectName(u"NaliRateTextField")
         self.NaliRateTextField.setGeometry(QtCore.QRect(210, 90, 111, 31))
@@ -571,8 +554,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Jutta.setObjectName(u"Add_Jutta")
         self.Add_Jutta.setGeometry(QtCore.QRect(150,180, 111, 51))
         self.Add_Jutta.setFont(font2)
-        self.Add_Jutta.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Jutta.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         
         self.JuttaRateTextField = QtWidgets.QTextEdit(self.JuttaContainer)
         self.JuttaRateTextField.setObjectName(u"JuttaRateTextField")
@@ -608,8 +599,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Raddi.setObjectName(u"Add_Raddi")
         self.Add_Raddi.setGeometry(QtCore.QRect(180, 190, 111, 51))
         self.Add_Raddi.setFont(font2)
-        self.Add_Raddi.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Raddi.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.RaddiRateTextField = QtWidgets.QTextEdit(self.RaddiContainer)
         self.RaddiRateTextField.setObjectName(u"RaddiRateTextField")
         self.RaddiRateTextField.setGeometry(QtCore.QRect(190, 120, 121, 31))
@@ -704,8 +703,16 @@ class Ui_MainWindow_cashbill(object):
         self.Add_Packets.setObjectName(u"Add_Packets")
         self.Add_Packets.setGeometry(QtCore.QRect(300, 420, 111, 51))
         self.Add_Packets.setFont(font2)
-        self.Add_Packets.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.Add_Packets.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.PacketsGrammage = QtWidgets.QComboBox(self.PacketsContainer)
         self.PacketsGrammage.setObjectName(u"PacketsGrammage")
         self.PacketsGrammage.setGeometry(QtCore.QRect(460, 360, 191, 31))
@@ -788,8 +795,16 @@ class Ui_MainWindow_cashbill(object):
         self.CheckOutButton.setGeometry(QtCore.QRect(530, 700, 231, 71))
         self.CheckOutButton.setObjectName("CheckOutButton")
         self.CheckOutButton.setFont(font2)
-        self.CheckOutButton.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.CheckOutButton.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.textBrowser_3 = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser_3.setObjectName(u"textBrowser_3")
         self.textBrowser_3.setEnabled(False)
@@ -932,8 +947,16 @@ class Ui_MainWindow_cashbill(object):
         self.DELETEROWS.setObjectName("DELETE ENTRY")
         self.DELETEROWS.setText('Delete Entry')
         self.DELETEROWS.setFont(font2)
-        self.DELETEROWS.setStyleSheet(u"background-color:rgb(0, 0, 81) ;\n"
-"color:rgb(255,255, 255) ;")
+        self.DELETEROWS.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : rgb(0, 0, 81);"
+                             "color:rgb(255,255, 255) ;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             )
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setEnabled(False)
@@ -2778,7 +2801,7 @@ class Ui_MainWindow_cashbill(object):
                 global pdf_total_balance
                 global pdf_dataframe
                 clientssheets=pd.read_excel('book.xlsx', index_col=None,sheet_name=None)
-                toremove=['reels_stock_in_out','tota_stock_in_out','rolls_stock_in_out','client info','rolls_stock','reels_stock','totay','Fluting',      'Fluting_Bareek', 'L1', 'L1_Bareek', 'L2', 'L2_Bareek', 'Test_Liner', 'Test_Liner_Bareek', 'Box_Board_2_5_No', 'Box_Board_2_5_No_Bareek', 'Box_Board_3_No','Box_Board_3_No_Bareek', 'Local_Kraft', 'Local_Kraft_Bareek', 'Imported_Kraft', 'Imported_Kraft_Bareek', 'Super_Fluting', 'Super_Fluting_Bareek']                
+                toremove=['reels_stock_in_out','tota_stock_in_out','rolls_stock_in_out', 'rolls_stock','reels_stock','totay','Fluting',      'Fluting_Bareek', 'L1', 'L1_Bareek', 'L2', 'L2_Bareek', 'Test_Liner', 'Test_Liner_Bareek', 'Box_Board_2_5_No', 'Box_Board_2_5_No_Bareek', 'Box_Board_3_No','Box_Board_3_No_Bareek', 'Local_Kraft', 'Local_Kraft_Bareek', 'Imported_Kraft', 'Imported_Kraft_Bareek', 'Super_Fluting', 'Super_Fluting_Bareek']                
                 sheets=[]
                 for i in clientssheets.keys():
                     if i not in toremove:
