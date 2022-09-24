@@ -60,7 +60,7 @@ def UploadClientRecord(client_id,reciept_number):
     nam = str(reciept_number) + ".pdf"
     my_path = 'Customer_Bills\\Client '
     my_path = my_path + str(client_id) + "\\" + str(reciept_number) + ".pdf"
-    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOA2UpXxmWr7sl2xOTuPvD14J3tk5KgO0ke9k4vkjEu-u6XSxz42HMKby9ll6ZBAqocqxs-DH3x8hz_pqPeAaj99zIab8dDWXdsm0jdYhY0JklkfiHSSZT-hUCP0oMPzxJSzpLfRkd1N-1Dm7yt359xaCgYKATASARMSFQEjDvL9Dc-3L-BV6kDTOZ9u00xEqw0163"}
+    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
     para = {
         "name": nam,
         "parents": [paren]

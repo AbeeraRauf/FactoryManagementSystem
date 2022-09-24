@@ -2992,7 +2992,7 @@ class Ui_MainWindow_cashbill(object):
                     if returnValue == QMessageBox.Ok:
                             whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
                     pass
-                headers = {"Authorization": "Bearer ya29.a0Aa4xrXM9bzPVDohgqLy7iQBcy96Z5aMrh1jdctEwmyM34tkhFSVGFZRsYGxsCxS35A6XinaMef0PwZJwKXeEn3CCEuaXTvMT49qKhNPWHWYRIDl-O-qxwzjb6oOs-W0EZ2m8dACepD0PzhbEB4pvoHjY5omKaCgYKATASARASFQEjDvL9CSLroRtAXP3KZePHYjp2Uw0163"}
+                headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
                 upload_name = str(other_list[4]) + "_" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
                 para = {
                     "name": upload_name,
