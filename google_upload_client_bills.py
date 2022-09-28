@@ -74,3 +74,22 @@ def UploadClientRecord(client_id,reciept_number):
         headers=headers,
         files=files
     )
+    
+
+def UploadCashRecord(client_name,reciept_number,contact_number):
+    upload_name = str(client_name) + "_" + str(reciept_number) + "_" + str(contact_number) + ".pdf"
+    my_path = 'Cash_Bills\\'
+    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
+    para = {
+        "name": upload_name,
+        "parents": ["1-5trWxCxRS_6gXq0Xe2Dq4O12U8JPjs3"]
+    }
+    files = {
+        'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
+        'file': open(my_path, "rb")
+    }
+    r = requests.post(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+        headers=headers,
+        files=files
+    )

@@ -3550,34 +3550,32 @@ class Ui_MainWindow_client(object):
             other_list.append(pdf_total_balance)
             other_list.append(pdf_client_contact_number)
             
-            if(len(pdf_dataframe)==0):
+            if(len(pdf_dataframe)==0 and len(error) == 0):
                 gc.collect()   
                 close_window()
-            else:
-                if (len(error) != 0):
-                    #print(errors, " erors ")
-                    msg = QMessageBox()  # create an instance of it
-                    msg.setIcon(QMessageBox.Information)  # set icon
-                    msgs = "Cannot Print Bill As there are errors"
-                    msg.setText(msgs)  # set text
+            elif (len(error) != 0):
+                #print(errors, " erors ")
+                msg = QMessageBox()  # create an instance of it
+                msg.setIcon(QMessageBox.Information)  # set icon
+                msgs = "Cannot Print Bill As there are errors"
+                msg.setText(msgs)  # set text
 
-                    '''msg.setInformativeText()'''  # set information under the main text
-                    msg.setWindowTitle("Alert")  # set title
-                    message = msg.exec_()
-                    error = []
-                else:
-                    generate_customer_invoice(pdf_dataframe,other_list)
-                    msgBox = QMessageBox()
-                    msgBox.setIcon(QMessageBox.Question) 
-                    msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
-                    msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
-                    msgBox.setWindowTitle("WhatsApp Message Send Option")  
-                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                        
-                    returnValue = msgBox.exec()
-                    if returnValue == QMessageBox.Ok:
-                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name,pdf_client_number)
-                    pass
+                msg.setWindowTitle("Alert")  # set title
+                message = msg.exec_()
+                error = []
+            else:
+                generate_customer_invoice(pdf_dataframe,other_list)
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Question) 
+                msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
+                msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
+                msgBox.setWindowTitle("WhatsApp Message Send Option")  
+                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                    
+                returnValue = msgBox.exec()
+                if returnValue == QMessageBox.Ok:
+                        whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name,pdf_client_number)
+                pass
                 from google_upload_client_bills import UploadClientRecord
                 UploadClientRecord(str(other_list[11]),str(other_list[5]))
                 gc.collect()   

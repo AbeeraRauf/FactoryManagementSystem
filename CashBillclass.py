@@ -2964,50 +2964,35 @@ class Ui_MainWindow_cashbill(object):
             other_list.append(pdf_previous_bill_number)
             other_list.append(pdf_total_balance)
             
-            if(len(pdf_dataframe)==0):
+            if(len(pdf_dataframe)==0 and len(error) == 0):
                 gc.collect()   
                 close_window()
-            else:
-                if (len(error) != 0):
-                    #print(errors, " erors ")
-                    msg = QMessageBox()  # create an instance of it
-                    msg.setIcon(QMessageBox.Information)  # set icon
-                    msgs = "Cannot Print Bill As there are errors"
-                    msg.setText(msgs)  # set text
+            
+            elif (len(error) != 0):
+                #print(errors, " erors ")
+                msg = QMessageBox()  # create an instance of it
+                msg.setIcon(QMessageBox.Information)  # set icon
+                msgs = "Cannot Print Bill As there are errors"
+                msg.setText(msgs)  # set text
 
-                    '''msg.setInformativeText()'''  # set information under the main text
-                    msg.setWindowTitle("Alert")  # set title
-                    message = msg.exec_()
-                    error = []
-                else:
-                    generate_cash_reciept(pdf_dataframe,other_list)
-                    msgBox = QMessageBox()
-                    msgBox.setIcon(QMessageBox.Question) 
-                    msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
-                    msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
-                    msgBox.setWindowTitle("WhatsApp Message Send Option")  
-                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                        
-                    returnValue = msgBox.exec()
-                    if returnValue == QMessageBox.Ok:
-                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
-                    pass
-                headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
-                upload_name = str(other_list[4]) + "_" + str(other_list[5]) + "_" + str(other_list[6]) + ".pdf"
-                para = {
-                    "name": upload_name,
-                    "parents": ["1-5trWxCxRS_6gXq0Xe2Dq4O12U8JPjs3"]
-                    }
-                filename = "Cash_Bills/" +str(upload_name)
-                files = {
-                    'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
-                    'file': open(filename, "rb")
-                    }
-                r = requests.post(
-                    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-                    headers=headers,
-                    files=files
-                    )
+                msg.setWindowTitle("Alert")  # set title
+                message = msg.exec_()
+                error = []
+            else:
+                generate_cash_reciept(pdf_dataframe,other_list)
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Question) 
+                msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
+                msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
+                msgBox.setWindowTitle("WhatsApp Message Send Option")  
+                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                    
+                returnValue = msgBox.exec()
+                if returnValue == QMessageBox.Ok:
+                        whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
+                pass
+                from google_upload_client_bills import UploadCashRecord
+                UploadCashRecord(str(other_list[4]),str(other_list[5]),str(other_list[6]))
                 gc.collect()   
                 close_window()
                 

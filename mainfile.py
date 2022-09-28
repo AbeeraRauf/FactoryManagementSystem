@@ -7,8 +7,13 @@
 # WARNING! All changes made in this file will be lost!
 
 #C:\Users\Hp\Downloads\fcs1
+import traceback
+import sys
 
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt 
+from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QInputDialog, QApplication, QLabel)
+import sys
+from PyQt5.QtWidgets import QMessageBox
 import CashBillclass
 from CashBillclass import Ui_MainWindow_cashbill
 from stock import Ui_Form2
@@ -22,6 +27,7 @@ import google_upload_bookexcel
 import reportlab
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
+token=''
 class Ui_MainWindow(object):
     
     def setupUi(self, MainWindow):
@@ -285,8 +291,25 @@ class Ui_MainWindow(object):
         def googleUpdate():
             self.window=QtWidgets.QMainWindow()
             from google_upload_bookexcel import bookExcel, bookExpense
-            bookExcel()
-            bookExpense()
+            global token
+            text ,ok = QtWidgets.QInputDialog.getText(None,"Input Dialogue", 'Please add the new refresh access token for Google drive to Upload recent files')
+            if ok:
+                token=(str(text))
+             
+                try:
+                    bookExcel(token)
+                    bookExpense(token)
+                    msg = QMessageBox()  # create an instance of it
+                    msg.setIcon(QMessageBox.Information)  # set icon
+                    msgs = "Data Uploaded Successfully"
+                    msg.setText(msgs)  # set text
+
+                        
+                    msg.setWindowTitle("Alert")  # set title
+                    message = msg.exec_()
+                except:
+                    traceback.print_exc()
+                
         self.google_updation.clicked.connect(googleUpdate)         
         self.stockinout.clicked.connect(openstockinfo)     
         self.cashbill.clicked.connect(opencashbill) 
