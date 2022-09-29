@@ -1,34 +1,40 @@
 import json
 import requests
+from googleapiclient.http import MediaFileUpload
+from Google import Create_Service
 
 def bookExcel():
-    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
-    para = {
-        "name": "book.xlsx",
-        "parents": ["1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr"]
-    }
-    files = {
-        'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
-        'file': open("./book.xlsx", "rb")
-    }
-    r = requests.post(
-        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-        headers=headers,
-        files=files
-    )
+    CLIENT_SECRET_FILE = 'client_secret.json'
+    API_NAME = 'drive'
+    API_VERSION = 'v3'
+    SCOPES = ['https://www.googleapis.com/auth/drive']
+
+    service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    
+    ## Replace Existing File on Google Drive
+    file_id = '1nDkf_GldeR5RRlyzJ-sRi89J10z9V6GW'
+
+    media_content = MediaFileUpload('book.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    service.files().update(
+        fileId=file_id,
+        media_body=media_content
+    ).execute()
     
 def bookExpense():
-    headers = {"Authorization": "Bearer ya29.a0Aa4xrXPSMLfsRTE_UCp6H7rXhQ0jaAoDlV2-4_nRbIvIxkflOo4xaUar0szqlH9esuFbT8wQCOcszEy7syF_UFXa6HF6pyjBUvjLJiE5gza8v_x8Mz9FcXK28P7EKBh-F12ZwbFaqq1uz-PyBNU_XMbX2DodaCgYKATASARISFQEjDvL9CZIFqn8q2T5KoWnViJhBow0163"}
-    para = {
-        "name": "BookExpense.xlsx",
-        "parents": ["1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr"]
-    }
-    files = {
-        'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
-        'file': open("./BookExpense.xlsx", "rb")
-    }
-    r = requests.post(
-        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-        headers=headers,
-        files=files
-    )
+    CLIENT_SECRET_FILE = 'client_secret.json'
+    API_NAME = 'drive'
+    API_VERSION = 'v3'
+    SCOPES = ['https://www.googleapis.com/auth/drive']
+
+    service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    
+    ## Replace Existing File on Google Drive
+    file_id = '178maODKyZDKKLpe9hbViBnTH-mBp-jWD'
+
+    media_content = MediaFileUpload('book.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    service.files().update(
+        fileId=file_id,
+        media_body=media_content
+    ).execute()

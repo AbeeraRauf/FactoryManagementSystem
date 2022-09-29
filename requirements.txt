@@ -8,3 +8,8 @@ openpyxl
 pdf2image
 pillow
 module
+Google
+google-api-python-client
+google-cloud
+google-cloud-vision
+google-cloud-storage

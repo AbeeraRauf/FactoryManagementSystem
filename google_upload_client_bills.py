@@ -1,5 +1,7 @@
 import json
 import requests
+from googleapiclient.http import MediaFileUpload
+from Google import Create_Service
 
 client_folders_list = ['','1u3CFCekQqXeyXlDf2I8JCtPeACKxUEw_','149yTPAa8wbYbwuy9V7H2a5yzndJzrWKf',
                        '1W7kbnxGKPbaniKVCNSXWkaryfVtiOIiw','173OOgbV4pNYtveR3K_DgFfoqs96cBXZ7',
@@ -60,26 +62,78 @@ def UploadClientRecord(client_id,reciept_number):
     nam = str(reciept_number) + ".pdf"
     my_path = 'Customer_Bills\\Client '
     my_path = my_path + str(client_id) + "\\" + str(reciept_number) + ".pdf"
-    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
-    para = {
-        "name": nam,
-        "parents": [paren]
+    CLIENT_SECRET_FILE = 'client_secret.json'
+    API_NAME = 'drive'
+    API_VERSION = 'v3'
+    SCOPES = ['https://www.googleapis.com/auth/drive']
+
+    service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+    # Upload a file
+    file_metadata = {
+        'name': nam,
+        'parents': ['1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr']
     }
-    files = {
-        'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
-        'file': open(my_path, "rb")
-    }
-    r = requests.post(
-        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-        headers=headers,
-        files=files
-    )
+    
+    media_content = MediaFileUpload(my_path, mimetype='application/pdf')
+
+    file = service.files().create(
+        body=file_metadata,
+
+        media_body=media_content
+    ).execute()
     
 
 def UploadCashRecord(client_name,reciept_number,contact_number):
     upload_name = str(client_name) + "_" + str(reciept_number) + "_" + str(contact_number) + ".pdf"
     my_path = 'Cash_Bills\\'
-    headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
+    CLIENT_SECRET_FILE = 'client_secret.json'
+    API_NAME = 'drive'
+    API_VERSION = 'v3'
+    SCOPES = ['https://www.googleapis.com/auth/drive']
+
+    service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+    # Upload a file
+    file_metadata = {
+        'name': upload_name,
+        'parents': ['1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr']
+    }
+    
+    my_path = my_path + upload_name
+    media_content = MediaFileUpload(my_path, mimetype='application/pdf')
+
+    file = service.files().create(
+        body=file_metadata,
+
+        media_body=media_content
+    ).execute()
+    
+'''
+CLIENT_SECRET_FILE = 'client_secret.json'
+API_NAME = 'drive'
+API_VERSION = 'v3'
+SCOPES = ['https://www.googleapis.com/auth/drive']
+
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+# Upload a file
+file_metadata = {
+    'name': 'BookExpense.xlsx',
+    'parents': ['1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr']
+}
+
+media_content = MediaFileUpload('BookExpense.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+file = service.files().create(
+    body=file_metadata,
+
+    media_body=media_content
+).execute()
+
+print(file)
+
+headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
     para = {
         "name": upload_name,
         "parents": ["1-5trWxCxRS_6gXq0Xe2Dq4O12U8JPjs3"]
@@ -93,3 +147,21 @@ def UploadCashRecord(client_name,reciept_number,contact_number):
         headers=headers,
         files=files
     )
+Clients
+
+headers = {"Authorization": "Bearer ya29.a0Aa4xrXOftJgzBdctZ9vxWgFr_4av05VxPzpvCQFur8OIwZMff0nuMoafOTrq4a0sQTs04uy3DZTaViktSh8YVt0M5DEQIsohEr52iVp74fVH69jdRMARGnTsbBV4ZTxVpOsepAp8-0WwjbvLPZvXPXv0oZOJaCgYKATASARASFQEjDvL9Fr4jCFRJl7lwJTbJh3JuDg0163"}
+    para = {
+        "name": nam,
+        "parents": [paren]
+    }
+    files = {
+        'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
+        'file': open(my_path, "rb")
+    }
+    r = requests.post(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+        headers=headers,
+        files=files
+    )
+
+'''

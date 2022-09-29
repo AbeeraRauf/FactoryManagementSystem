@@ -291,24 +291,23 @@ class Ui_MainWindow(object):
         def googleUpdate():
             self.window=QtWidgets.QMainWindow()
             from google_upload_bookexcel import bookExcel, bookExpense
-            global token
-            text ,ok = QtWidgets.QInputDialog.getText(None,"Input Dialogue", 'Please add the new refresh access token for Google drive to Upload recent files')
-            if ok:
-                token=(str(text))
+            #global token
+            #text ,ok = QtWidgets.QInputDialog.getText(None,"Input Dialogue", 'Please add the new refresh access token for Google drive to Upload recent files')
+            #if ok:
+            #    token=(str(text))
              
-                try:
-                    bookExcel(token)
-                    bookExpense(token)
-                    msg = QMessageBox()  # create an instance of it
-                    msg.setIcon(QMessageBox.Information)  # set icon
-                    msgs = "Data Uploaded Successfully"
-                    msg.setText(msgs)  # set text
-
-                        
-                    msg.setWindowTitle("Alert")  # set title
-                    message = msg.exec_()
-                except:
-                    traceback.print_exc()
+            try:
+                bookExcel()
+                bookExpense()
+                msg = QMessageBox()  # create an instance of it
+                msg.setIcon(QMessageBox.Information)  # set icon
+                msgs = "Data Uploaded Successfully"
+                msg.setText(msgs)  # set text
+                    
+                msg.setWindowTitle("Alert")  # set title
+                message = msg.exec_()
+            except:
+                traceback.print_exc()
                 
         self.google_updation.clicked.connect(googleUpdate)         
         self.stockinout.clicked.connect(openstockinfo)     
