@@ -13,3 +13,4 @@ google-api-python-client
 google-cloud
 google-cloud-vision
 google-cloud-storage
+google-auth-oauthlib
