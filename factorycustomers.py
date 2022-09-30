@@ -48,6 +48,7 @@ pdf_previous_bill_number = ''
 pdf_total_balance = 0.0
 pdf_client_number = 0
 pdf_dataframe = pd.DataFrame()
+error = []
  
 class Ui_Form(object):
     
@@ -3308,7 +3309,7 @@ class Ui_MainWindow_client(object):
                     pywhatkit.sendwhats_image(customer_number, str(path2+'\\'+'page'+ str(i) +'.jpg'),message,wait_time=30)
         
         def cashbill():
-            errors=[] 
+            global error
             clients=self.clients 
             CLIENT_NAME =self.clientName.toPlainText().strip() 
             CONTACT_NO=self.contact.toPlainText().strip()
@@ -3317,29 +3318,29 @@ class Ui_MainWindow_client(object):
             self.prevrcp.setText(self.clients[1]) ''' 
             ledger=self.m_ledger.toPlainText().strip()
             if  self.CreditDetailsTextField.toPlainText().strip() == "":
-                errors.append("Wrong input in Credit Details Text Field")
+                error.append("Wrong input in Credit Details Text Field")
             if (ledger == "") or (not (bool(re.match('^\d+$', ledger)))):
-                errors.append("Wrong Input in ledger Text Field")    
+                error.append("Wrong Input in ledger Text Field")    
             if (self.CreditTextField.toPlainText().strip() == "" )or (not (bool(re.match('^\d+?\.\d+?|\d+$',self.CreditTextField.toPlainText().strip())))):
-                errors.append("Wrong Input in Credit Text Field")
+                error.append("Wrong Input in Credit Text Field")
             if (not (bool(re.match('^\d+?\.\d+?|\d+$', self.RentTextField.toPlainText().strip())))) or (self.RentTextField.toPlainText().strip() == ''):
-                errors.append("Wrong Input in Rent Text Field")            
+                error.append("Wrong Input in Rent Text Field")            
             '''if (self.contact.toPlainText().strip() == '') or (not bool(re.match('^[1-9]\d{11,12}$' , self.contact.toPlainText().strip()))):
                 errors.append('Wrong Input in Client Contact Text Field')'''
             if (not (bool(re.match("^[a-zA-z]+([\s][a-zA-Z]+)*$", self.clientName.toPlainText().strip())))) or (
                     self.clientName.toPlainText().strip() == ''):
-                errors.append('Wrong Input in Client Name Text Field ')
-            if (len(errors) != 0  ):
+                error.append('Wrong Input in Client Name Text Field ')
+            if (len(error) != 0  ):
                 msg = QMessageBox()  # create an instance of it
                 msg.setIcon(QMessageBox.Information)  # set icon
-                msgs=" , ".join([str(item) for item in errors])
+                msgs=" , ".join([str(item) for item in error])
                 msg.setText(msgs)  # set text
                 
                 '''msg.setInformativeText()'''  # set information under the main text
                 msg.setWindowTitle("Alert")  # set title
                 message=msg.exec_()
                 
-            if(len(errors)==0):
+            if(len(error)==0):
                 totalrows = self.cashbillDetailstable.rowCount()
                 updated1 = ''
 
@@ -3534,7 +3535,8 @@ class Ui_MainWindow_client(object):
             global pdf_previous_balance
             global pdf_previous_bill_number
             global pdf_total_balance
-            global pdf_dataframe  
+            global pdf_dataframe
+            global error
             
             other_list=[]
             other_list.append(pdf_rent)
@@ -3548,7 +3550,8 @@ class Ui_MainWindow_client(object):
             other_list.append(pdf_previous_balance)
             other_list.append(pdf_previous_bill_number)
             other_list.append(pdf_total_balance)
-            other_list.append(pdf_client_contact_number)
+            other_list.append(pdf_client_number)
+            
             
             if(len(pdf_dataframe)==0 and len(error) == 0):
                 gc.collect()   
@@ -3565,19 +3568,22 @@ class Ui_MainWindow_client(object):
                 error = []
             else:
                 generate_customer_invoice(pdf_dataframe,other_list)
-                msgBox = QMessageBox()
-                msgBox.setIcon(QMessageBox.Question) 
-                msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
-                msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
-                msgBox.setWindowTitle("WhatsApp Message Send Option")  
-                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                    
-                returnValue = msgBox.exec()
-                if returnValue == QMessageBox.Ok:
-                        whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name,pdf_client_number)
-                pass
-                from google_upload_client_bills import UploadClientRecord
-                UploadClientRecord(str(other_list[11]),str(other_list[5]))
+                try:
+                    msgBox = QMessageBox()
+                    msgBox.setIcon(QMessageBox.Question) 
+                    msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
+                    msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
+                    msgBox.setWindowTitle("WhatsApp Message Send Option")  
+                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                        
+                    returnValue = msgBox.exec()
+                    if returnValue == QMessageBox.Ok:
+                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name,pdf_client_number)
+                    pass
+                    from google_upload_client_bills import UploadClientRecord
+                    UploadClientRecord(str(other_list[11]),str(other_list[5]))
+                except:
+                    pass
                 gc.collect()   
                 close_window()
             

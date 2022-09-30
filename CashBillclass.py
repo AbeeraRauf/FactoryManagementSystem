@@ -2980,19 +2980,22 @@ class Ui_MainWindow_cashbill(object):
                 error = []
             else:
                 generate_cash_reciept(pdf_dataframe,other_list)
-                msgBox = QMessageBox()
-                msgBox.setIcon(QMessageBox.Question) 
-                msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
-                msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
-                msgBox.setWindowTitle("WhatsApp Message Send Option")  
-                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                    
-                returnValue = msgBox.exec()
-                if returnValue == QMessageBox.Ok:
-                        whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
-                pass
-                from google_upload_client_bills import UploadCashRecord
-                UploadCashRecord(str(other_list[4]),str(other_list[5]),str(other_list[6]))
+                try:
+                    msgBox = QMessageBox()
+                    msgBox.setIcon(QMessageBox.Question) 
+                    msgBox.setWindowIcon(QtGui.QIcon("whatsapp-logo.png"))
+                    msgBox.setText("Do you want to send this bill to Client's WhatsApp?")  # set text   
+                    msgBox.setWindowTitle("WhatsApp Message Send Option")  
+                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                        
+                    returnValue = msgBox.exec()
+                    if returnValue == QMessageBox.Ok:
+                            whtsapp(pdf_client_contact_number,pdf_reciept_number,pdf_client_name)
+                    pass
+                    from google_upload_client_bills import UploadCashRecord
+                    UploadCashRecord(str(other_list[4]),str(other_list[5]),str(other_list[6]))
+                except:
+                    pass
                 gc.collect()   
                 close_window()
                 

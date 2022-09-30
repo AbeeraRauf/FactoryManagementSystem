@@ -72,7 +72,7 @@ def UploadClientRecord(client_id,reciept_number):
     # Upload a file
     file_metadata = {
         'name': nam,
-        'parents': ['1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr']
+        'parents': [paren]
     }
     
     media_content = MediaFileUpload(my_path, mimetype='application/pdf')
@@ -97,7 +97,7 @@ def UploadCashRecord(client_name,reciept_number,contact_number):
     # Upload a file
     file_metadata = {
         'name': upload_name,
-        'parents': ['1QAxCY94S-IbQ7jxwQOYZu44Nld8-eARr']
+        'parents': ['1-5trWxCxRS_6gXq0Xe2Dq4O12U8JPjs3']
     }
     
     my_path = my_path + upload_name
