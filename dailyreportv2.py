@@ -5,6 +5,7 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
+from trace import Trace
 from PyQt5 import QtCore, QtGui, QtWidgets,QtPrintSupport 
 from PyQt5.QtWidgets import QDateTimeEdit
 from PyQt5.QtCore import QDate
@@ -46,13 +47,13 @@ class Ui_Dialog(object):
         self.dateTimeEdit.setGeometry(QtCore.QRect(60, 40, 194, 22))
         self.dateTimeEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.dateTimeEdit.setObjectName("dateTimeEdit") 
-        self.dateTimeEdit.setDisplayFormat("dd-MM-yyyy")
+        self.dateTimeEdit.setDisplayFormat("dd-MM-y")
         
         self.dateTimeEdit_StartsWith = QtWidgets.QDateTimeEdit(self.addclientsgroupbox)
         self.dateTimeEdit_StartsWith.setDateTime(QtCore.QDateTime.currentDateTime())  
         self.dateTimeEdit_StartsWith.setGeometry(QtCore.QRect(60, 40, 194, 22))
         self.dateTimeEdit_StartsWith.setObjectName("dateTimeEdit") 
-        self.dateTimeEdit_StartsWith.setDisplayFormat("dd-MM-yyyy")
+        self.dateTimeEdit_StartsWith.setDisplayFormat("dd-MM-y")
         
         
         self.startlabel = QtWidgets.QLabel(self.addclientsgroupbox)
@@ -79,7 +80,7 @@ class Ui_Dialog(object):
         self.dateTimeEdit_endwith.setDateTime(QtCore.QDateTime.currentDateTime())  
         self.dateTimeEdit_endwith.setGeometry(QtCore.QRect(420, 40, 194, 22))
         self.dateTimeEdit_endwith.setObjectName("dateTimeEdit") 
-        self.dateTimeEdit_endwith.setDisplayFormat("dd-MM-yyyy")
+        self.dateTimeEdit_endwith.setDisplayFormat("dd-MM-y")
         
         
          
@@ -260,12 +261,12 @@ class Ui_Dialog(object):
         self.mainselectionbox.setItemText(2, _translate("Dialog", "Show Record by all Cash Customers"))
         self.mainselectionbox.setItemText(3, _translate("Dialog", "Show Record by all Clients"))
         self.mainselectionbox.setItemText(4, _translate("Dialog", "Show Record by Customer ID"))
-        self.dateTimeEdit.setDisplayFormat(_translate("Dialog", "dd-MM-yyyy"))
+        self.dateTimeEdit.setDisplayFormat(_translate("Dialog", "dd-MM-yy"))
         self.selectionbox.setItemText(0, _translate("Dialog", "click to choose option"))
          
         #self.creditbox_2.setPlaceholderText(_translate("Dialog", "0"))
-        self.dateTimeEdit_StartsWith.setDisplayFormat(_translate("Dialog", "dd-MM-yyyy"))
-        self.dateTimeEdit_endwith.setDisplayFormat(_translate("Dialog", "dd-MM-yyyy"))
+        self.dateTimeEdit_StartsWith.setDisplayFormat(_translate("Dialog", "dd-MM-yy"))
+        self.dateTimeEdit_endwith.setDisplayFormat(_translate("Dialog", "dd-MM-yy"))
 
         self.startlabel.setText(QtCore.QCoreApplication.translate("Dialog", "Date:", None))
         self.endlabel.setText(QtCore.QCoreApplication.translate("Dialog", "To: ", None))
@@ -396,34 +397,31 @@ class Ui_Dialog(object):
             datas=pd.read_excel('book.xlsx' , index_col=None,sheet_name=sheets, usecols=['DATE','RECIEPT_NUMBER','CLIENT_ID','CLIENT_NAME','CONTACT_NO','DETAILS_OF_BILL','DEBIT','CREDIT','CREDIT_DETAILS','RENT','BALANCE'])
             df=pd.concat(datas[frame]  for frame in datas.keys()).reset_index(drop=True)
 
-            df2=df.copy()
-             
+            df2=df
+            df2['DATE']= pd.to_datetime(df2['DATE'])
             
             if (self.datebyrange.text()== 'Click Here to Check Record For Date Range'):
-                df2=df2[  ((pd.to_datetime(df2['DATE'])).dt.date==(self.dateTimeEdit.date()))]
+                df2=df2[((pd.to_datetime(df2['DATE'])) ==(pd.to_datetime(self.dateTimeEdit.date().toPyDate().strftime("%d-%m-%y"))))]
             else:
+                df2 = df.copy()
                 startswith=self.dateTimeEdit_StartsWith.date()
                 endswith=self.dateTimeEdit_endwith.date()
-                
                 df2=df2[ ((pd.to_datetime(df2['DATE'])).dt.date  >=(startswith )) & ((pd.to_datetime(df2['DATE'])).dt.date <=(endswith))]
                 
-            rowPosition = 0
             import traceback
-            try:
-                    df2['DATE']=pd.to_datetime(df2['DATE']).dt.date
-                    df2=df2.sort_values( 'DATE')
+            try:      
+                    df2=df2.sort_values( by=['DATE'])
+                   
                     
             except:
                 
                                      traceback.print_exc()  
+            rowPosition = self.tableView.rowCount()
             for row in df2.iterrows():
                 self.tableView.insertRow(rowPosition)
-                 
                 x=pd.to_datetime(str(row[1][0]) )
- 
-
                 y=(x.strftime("%d-%m-%y") )
-                self.tableView.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem( y))
+                self.tableView.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(y))
                 self.tableView.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(row[1][1])))
                 self.tableView.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(row[1][2])))
                 self.tableView.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(row[1][3])))
@@ -442,8 +440,7 @@ class Ui_Dialog(object):
                 else:
                     self.tableView.setItem(rowPosition, 11, QtWidgets.QTableWidgetItem(str('CLIENT')))
                                            
-                rowPosition+=1
-                
+                rowPosition+=1    
 
                 
             updatedtextcredit(self)
@@ -451,7 +448,7 @@ class Ui_Dialog(object):
             updatedtextexpense(self)
             update_netprice(self)
             
-         
+        updatetable() 
         def expenses_data():
             expense = pd.read_excel('BookExpense.xlsx', index_col=None, usecols=['DATE','DETAILS',  'TOTAL'],sheet_name='expense_details')
             expense['TOTAL']=expense['TOTAL'].astype(int)
@@ -498,6 +495,7 @@ class Ui_Dialog(object):
         #expenses_data()
         def cashcustomersview():
             cleartable()
+            
             clientssheets=pd.read_excel('book.xlsx', index_col=None,sheet_name=None)
             
             toremove=['reels_stock_in_out','tota_stock_in_out','rolls_stock_in_out', 'rolls_stock','reels_stock','totay','Fluting', 'Fluting_Bareek', 'L1', 'L1_Bareek', 'L2', 'L2_Bareek', 'Test_Liner', 'Test_Liner_Bareek', 'Box_Board_2_5_No', 'Box_Board_2_5_No_Bareek', 'Box_Board_3_No', 'Box_Board_3_No_Bareek', 'Local_Kraft', 'Local_Kraft_Bareek', 'Imported_Kraft', 'Imported_Kraft_Bareek', 'Super_Fluting', 'Super_Fluting_Bareek']

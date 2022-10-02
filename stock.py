@@ -18,7 +18,6 @@ from datetime import datetime
 from datetime import date 
 reelsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','Item_Type', 'Size', 'Weight_g','vendor','rate'],sheet_name='reels_stock')
 reelsstock['Weight_g']=reelsstock['Weight_g'].astype(int)
-rollsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['ID','Type','Rate','Size','Description','Quantity'],sheet_name='rolls_stock')
 fluting = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGID','Size','Quantity'],sheet_name='Fluting')
 fluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['FLUTINGBID','Size','Quantity'],sheet_name='Fluting_Bareek')
 L1 = pd.read_excel(r'book.xlsx', index_col=None, usecols=['L1ID','Size','Quantity'],sheet_name='L1')
@@ -40,6 +39,7 @@ superfluting_bareek = pd.read_excel(r'book.xlsx', index_col=None, usecols=['SFBI
 stock_out_rolls = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','quantity','quantity_in_stock'],sheet_name='rolls_stock_in_out')
 stock_out_reels = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='reels_stock_in_out')
 stock_out_totay = pd.read_excel(r'book.xlsx', index_col=None, usecols=['date','details','item_type','size','weight','rate'],sheet_name='tota_stock_in_out')
+rollsstock = pd.read_excel(r'book.xlsx', index_col=None, usecols=['ID','Type','Rate','Size','Description','Quantity'],sheet_name='rolls_stock')
 rollsquantitylist = [fluting['Quantity'].sum(skipna=True),]
 a = list()
 a.append(fluting['Quantity'].sum(skipna=True))
@@ -327,28 +327,18 @@ class Ui_Form2(object):
         self.delete_stock.setText(_translate("Form", "Delete Entry"))
         self.itemtype_search.setItemText(0, _translate("Form", "Select from Drop Down"))
         self.comboBox_size_2.setItemText(0, _translate("Form", "Select from Drop Down"))
-        #self.add.setTitle(_translate("Form", "Add"))
         self.itemtypelabel.setText(_translate("Form", "Item Type :"))
-        #self.add_stock.setText(_translate("Form", "Add"))
-        #self.sizelabel.setText(_translate("Form", "Size:"))
         self.qty_grams.setText(_translate("Form", "Quantity:"))
         self.vend.setText(_translate("Form", "Vendor:"))
-        #self.qty_grams.setText(QtCore.QCoreApplication.translate("Form",  "Quantity:", None))
         self.itemtypes.setItemText(0, _translate("Form", "Select from Drop Down"))
         self.comboBox_size.setItemText(0, _translate("Form", "Select from Drop Down"))
         self.search_3.setTitle(QtCore.QCoreApplication.translate("Form",  "Stocks", None)) 
-        
-        
-        
-        
         self.add.setTitle(QtCore.QCoreApplication.translate("Form", "Add", None))
         self.itemtypelabel.setText(QtCore.QCoreApplication.translate("Form", "Item Type :", None))
         self.add_stock.setText(QtCore.QCoreApplication.translate("Form", "Add", None))
         self.sizelabel.setText(QtCore.QCoreApplication.translate("Form", "Size:", None))
         self.itemtypes.setItemText(0, QtCore.QCoreApplication.translate("Form", "Select from Drop Down", None))
-
         self.comboBox_size.setItemText(0, QtCore.QCoreApplication.translate("Form", "Select from Drop Down", None))
-
         self.textBrowser.setHtml(QtCore.QCoreApplication.translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -356,10 +346,8 @@ class Ui_Form2(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:36pt; font-weight:600;\"> Ahmed Corrugation Machines</span></p></body></html>", None))
         self.search_3.setTitle(QtCore.QCoreApplication.translate("Form", "Stocks", None))
         self.RollsStockbutton.setText(QtCore.QCoreApplication.translate("Form", "Rolls Stock", None))
-        self.ReelsStockbutton.setText(QtCore.QCoreApplication.translate("Form", "Reels Stock", None))
-         
+        self.ReelsStockbutton.setText(QtCore.QCoreApplication.translate("Form", "Reels Stock", None))  
         self.totaStockbutton.setText(QtCore.QCoreApplication.translate("Form", "Tota Stock"))
-        
         self.save_data.setText(QtCore.QCoreApplication.translate("Form", "save", None))
         self.Show_stock.setText(QtCore.QCoreApplication.translate("Form", "show", None))
         self.search_2.setTitle(QtCore.QCoreApplication.translate("Form", "Search", None))
@@ -368,18 +356,16 @@ class Ui_Form2(object):
         self.label_2.setText(QtCore.QCoreApplication.translate("Form", "Search By Size:", None))
         self.delete_stock.setText(QtCore.QCoreApplication.translate("Form", "Delete Entry", None))
         self.itemtype_search .setItemText(0, QtCore.QCoreApplication.translate("Form", "Select from Drop Down", None))
-
         self.comboBox_size_2.setItemText(0, QtCore.QCoreApplication.translate("Form", "Select from Drop Down", None))
-        
-        
-        
+        def cleartable():
+                    self.tableWidget.clear()
+                    self.tableWidget.setRowCount(0) 
         def rollstable():
             global rollsstock
             self.tableWidget.clear()
             self.tableWidget.setObjectName("tableWidget")
             self.tableWidget.setColumnCount(6)
             self.tableWidget.setRowCount(0) 
-             
             self.tableWidget.setHorizontalHeaderLabels(('ID','Type','Rate','Size','Description','Quantity'))  # set header text  
             header = self.tableWidget.horizontalHeader()      
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -498,71 +484,122 @@ class Ui_Form2(object):
             if(choice=='reels'):
                 global reelsstock
                 reelsstock['Item_Type'] = reelsstock['Item_Type'].apply(lambda x: x.strip() )
-                
                 reelsstock.loc[len(reelsstock)] = [dt,itemtype,size,QTY_WEIGHT,details,33]
             if(choice=='tota'):
                 global totaystock
-                totaystock['Item_Type'] = totaystock['Item_Type'].apply(lambda x: x.strip() )
-                
+                totaystock['Item_Type'] = totaystock['Item_Type'].apply(lambda x: x.strip() )  
                 totaystock.loc[len(totaystock)] = [dt,itemtype,size,QTY_WEIGHT,details,0]
             if(choice=='rolls'):
+                global rollsstock
                 if(sheet.lower()=='fluting'):
                     global fluting
                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                     res = fluting[ ((fluting['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in fluting.iterrows():
                             if  int(row[1]) == int(size):
-
+                                flag=1
                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                 stockquantity = 0
                                 stockquantity = newquantity
                                 fluting.loc[index, 'Quantity'] = newquantity
+                    if flag==0:
+                            new_id=fluting.iloc[-1]  
+                            new_id=int(new_id[0])+1
+                            
+                            newquantity =  (QTY_WEIGHT)
+                            stockquantity = 0
+                            stockquantity = newquantity
+                            #itemtype,size,QTY_WEIGHT
+                            
+                            fluting.loc[len(fluting)] = [new_id,size,newquantity] 
                 if(sheet.lower()==("fluting bareek")):
                      
                     global fluting_bareek
                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                     res = fluting_bareek[((fluting_bareek['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in fluting_bareek.iterrows():
                             if  int(row[1]) == int(size):
-
+                                flag=1
                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                 stockquantity = 0
                                 stockquantity = newquantity
                                 fluting_bareek.loc[index, 'Quantity'] = newquantity 
+                    if flag==0:
+                            new_id=fluting_bareek.iloc[-1]  
+                            new_id=int(new_id[0])+1
+                            newquantity =  (QTY_WEIGHT)
+                            stockquantity = 0
+                            stockquantity = newquantity
+                            #itemtype,size,QTY_WEIGHT
+                            fluting_bareek.loc[len(fluting_bareek)] = [new_id,size,newquantity] 
+                                
+                                
+                                
                 if(sheet.lower()==("l1")):   
                     global L1
                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                     res = L1[((L1['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in L1.iterrows():
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
                             L1.loc[index, 'Quantity'] = newquantity
+                    if flag==0:       
+                            new_id=L1.iloc[-1]  
+                            new_id=int(new_id[0])+1
+                            newquantity =  (QTY_WEIGHT)
+                            stockquantity = 0
+                            stockquantity = newquantity
+                            L1.loc[len(L1)] = [new_id,size,newquantity]         
                 if(sheet.lower()==("l1 bareek")):   
                     global L1_bareek
                     res = L1_bareek[((L1_bareek['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in L1_bareek.iterrows():
                         if  int(row[1]) == int(size):
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
-                            L1_bareek.loc[index, 'Quantity'] = newquantity                
+                            L1_bareek.loc[index, 'Quantity'] = newquantity    
+                    if flag==0:
+                            new_id=L1_bareek.iloc[-1]  
+                            new_id=int(new_id[0])+1
+                            newquantity =  (QTY_WEIGHT)
+                            stockquantity = 0
+                            stockquantity = newquantity
+                            L1_bareek.loc[len(L1_bareek)] = [new_id,size,newquantity]         
+                                        
                 if (sheet.lower()==("l2 bareek")):   
                     global L2_bareek
                     res = L2_bareek[((L2_bareek['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in L2_bareek.iterrows():
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
                             L2_bareek.loc[index, 'Quantity'] = newquantity 
-                                                
+                    if flag==0:
+                            new_id=L2_bareek.iloc[-1]  
+                            new_id=int(new_id[0])+1
+                            
+                            newquantity =  (QTY_WEIGHT)
+                            stockquantity = 0
+                            stockquantity = newquantity
+                            #itemtype,size,QTY_WEIGHT
+                            
+                            L2_bareek.loc[len(L2_bareek)] = [new_id,size,newquantity]                   
                                                 
                 if (sheet.lower()==("l2")):   
 
@@ -571,59 +608,92 @@ class Ui_Form2(object):
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res = L2[((L2['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in L2.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
                                                 L2.loc[index, 'Quantity'] = newquantity       
+                                    if flag==0:
+                                        new_id=L2.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        L2.loc[len(L2)] = [new_id,size,newquantity] 
+                                                    
                                                 
                                                 
-                                                
-                if (sheet.lower()==("test liner")):   
-
-
+                if (sheet.lower()==("test liner")): 
                                     global test_liner
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res = test_liner[((test_liner['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in test_liner.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
                                                 test_liner.loc[index, 'Quantity'] = newquantity                                 
-                                                
+                                    if flag==0:    
+                                        new_id=test_liner.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        test_liner.loc[len(test_liner)] = [new_id,size,newquantity]     
+                                            
                 if (sheet.lower()==("test liner bareek")):   
 
 
-                                    global test_liner_bareek
+                                    global testliner_bareek
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
-                                    res = test_liner_bareek[((test_liner_bareek['Size'] == size) ) ]
+                                    res = testliner_bareek[((testliner_bareek['Size'] == size) ) ]
                                     qty =  (len(res))
-                                    for index, row in test_liner_bareek.iterrows():
+                                    flag=0
+                                    for index, row in testliner_bareek.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
-                                                test_liner_bareek.loc[index, 'Quantity'] = newquantity      
+                                                testliner_bareek.loc[index, 'Quantity'] = newquantity    
+                                    if flag==0:
+                                        new_id=testliner_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        testliner_bareek.loc[len(testliner_bareek)] = [new_id,size,newquantity] 
+                                                      
                 if (sheet.lower()==("boxboard 2.5 no")):   
-
-
                                     global boxboard2_5
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res = boxboard2_5[((boxboard2_5['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in boxboard2_5.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
-                                                boxboard2_5.loc[index, 'Quantity'] = newquantity                                   
+                                                boxboard2_5.loc[index, 'Quantity'] = newquantity  
+                                    if flag==0:
+                                        new_id=boxboard2_5.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        boxboard2_5.loc[len(boxboard2_5)] = [new_id,size,newquantity] 
+                                                                                     
                                                 
                 if (sheet.lower()==("boxboard 2.5 bareek")):   
 
@@ -632,13 +702,23 @@ class Ui_Form2(object):
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res = boxboard2_5_bareek[((boxboard2_5_bareek['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in boxboard2_5_bareek.iterrows():
                                             if  int(row[1]) == int(size):
+                                                flag=1
 
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
-                                                boxboard2_5_bareek.loc[index, 'Quantity'] = newquantity     
+                                                boxboard2_5_bareek.loc[index, 'Quantity'] = newquantity    
+                                    if flag==0:
+                                        new_id=boxboard2_5_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        boxboard2_5_bareek.loc[len(boxboard2_5_bareek)] = [new_id,size,newquantity]  
                                                 
                 if (sheet.lower()==("boxboard 3 no")):   
 
@@ -647,67 +727,128 @@ class Ui_Form2(object):
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res =  boxboard3[((boxboard3['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in boxboard3.iterrows():
                                             if  int(row[1]) == int(size):
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
                                                 boxboard3.loc[index, 'Quantity'] = newquantity     
+                                    if flag==0:
+                                        new_id=boxboard3.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        boxboard3.loc[len(boxboard3)] = [new_id,size,newquantity]
+                                         
                 if (sheet.lower()==("boxboard 3 bareek")):
                     global  boxboard3_bareek
-                    res =   boxboard3_bareek[(( boxboard3_bareek['Size'] == size) ) ]
+                    res =   boxboard3_bareek[ (( boxboard3_bareek['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in  boxboard3_bareek.iterrows():
+                       
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
-                            boxboard3_bareek.loc[index, 'Quantity'] = newquantity                                             
+                            boxboard3_bareek.loc[index, 'Quantity'] = newquantity      
+                    if flag==0:
+                                        new_id=boxboard3_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        boxboard3_bareek.loc[len(boxboard3_bareek)] = [new_id,size,newquantity]   
+                                        
+                                                                             
                 if (sheet.lower()==("local kraft")):   
                     global localkraft
                     res =  localkraft[((localkraft['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in localkraft.iterrows():
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
                             localkraft.loc[index, 'Quantity'] = newquantity     
-            
-                if (sheet.lower()==("local kraft bareek")):   
-
-
+                    if flag==0:
+                                        new_id=localkraft.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        localkraft.loc[len(localkraft)] = [new_id,size,newquantity] 
+                
+                if (sheet.lower()==("local kraft bareek")):
                                     global localkraft_bareek
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res =  localkraft_bareek[((localkraft_bareek['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in localkraft_bareek.iterrows():
                                         if  int(row[1]) == int(size):
+                                            flag=1
                                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                                             stockquantity = 0
                                             stockquantity = newquantity
                                             localkraft_bareek.loc[index, 'Quantity'] = newquantity
+                                    if flag==0:
+                                        new_id=localkraft_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        localkraft_bareek.loc[len(localkraft_bareek)] = [new_id,size,newquantity] 
                 if (sheet.lower()==("imported kraft")):  
                     global importedkraft
                     res =  importedkraft[((importedkraft['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in importedkraft.iterrows():
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
                             importedkraft.loc[index, 'Quantity'] = newquantity
-          
+                    if flag==0:
+                                        new_id=importedkraft.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        importedkraft.loc[len(importedkraft)] = [new_id,size,newquantity] 
                 if (sheet.lower()==("imported kraft bareek")):
                     global importedkraft_bareek
                     res =  importedkraft_bareek[((importedkraft_bareek['Size'] == size) ) ]
                     qty =  (len(res))
+                    flag=0
                     for index, row in importedkraft_bareek.iterrows():
                         if  int(row[1]) == int(size):
+                            flag=1
                             newquantity = row['Quantity'] + (QTY_WEIGHT)
                             stockquantity = 0
                             stockquantity = newquantity
                             importedkraft_bareek.loc[index, 'Quantity'] = newquantity
+                    if flag==0:
+                                        new_id=importedkraft_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        importedkraft_bareek.loc[len(importedkraft_bareek)] = [new_id,size,newquantity] 
                 if (sheet.lower()==("super fluting")):   
 
 
@@ -715,27 +856,66 @@ class Ui_Form2(object):
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res =  superfluting[((superfluting['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in superfluting.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
                                                 superfluting.loc[index, 'Quantity'] = newquantity
+                                    if flag==0:
+                                        new_id=superfluting.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        superfluting.loc[len(superfluting)] = [new_id,size,newquantity] 
+                                        
                 if (sheet.lower()==("super fluting bareek")):   
-
-
                                     global superfluting_bareek
                                     #fluting['Item_Type']  = fluting['Item_Type'].apply(lambda x: x.strip()  )
                                     res =  superfluting_bareek[((superfluting_bareek['Size'] == size) ) ]
                                     qty =  (len(res))
+                                    flag=0
                                     for index, row in superfluting_bareek.iterrows():
                                             if  int(row[1]) == int(size):
-
+                                                flag=1    
                                                 newquantity = row['Quantity'] + (QTY_WEIGHT)
                                                 stockquantity = 0
                                                 stockquantity = newquantity
                                                 superfluting_bareek.loc[index, 'Quantity'] = newquantity
+                                    if flag==0:
+                                        new_id=superfluting_bareek.iloc[-1]  
+                                        new_id=int(new_id[0])+1
+                                        newquantity =  (QTY_WEIGHT)
+                                        stockquantity = 0
+                                        stockquantity = newquantity
+                                        #itemtype,size,QTY_WEIGHT
+                                        superfluting_bareek.loc[len(superfluting_bareek)] = [new_id,size,newquantity] 
+                a = list()
+                a.append(fluting['Quantity'].sum(skipna=True))
+                a.append(fluting_bareek['Quantity'].sum(skipna=True))
+                a.append(L1['Quantity'].sum(skipna=True))
+                a.append(L1_bareek['Quantity'].sum(skipna=True))
+                a.append(L2['Quantity'].sum(skipna=True))
+                a.append(L2_bareek['Quantity'].sum(skipna=True))
+                a.append(testliner['Quantity'].sum(skipna=True))
+                a.append(testliner_bareek['Quantity'].sum(skipna=True))
+                a.append(boxboard2_5['Quantity'].sum(skipna=True))
+                a.append(boxboard2_5_bareek['Quantity'].sum(skipna=True))
+                a.append(boxboard3['Quantity'].sum(skipna=True))
+                a.append(boxboard3_bareek['Quantity'].sum(skipna=True))
+                a.append(localkraft['Quantity'].sum(skipna=True))
+                a.append(localkraft_bareek['Quantity'].sum(skipna=True))
+                a.append(importedkraft['Quantity'].sum(skipna=True))
+                a.append(importedkraft_bareek['Quantity'].sum(skipna=True))
+                a.append(superfluting['Quantity'].sum(skipna=True))
+                a.append(superfluting_bareek['Quantity'].sum(skipna=True))
+                rollsstock['Quantity']=a
+        
+        
         def sizes():
              
             #self.comboBox_size.setItemText(0, _translate("Form", "Select from Drop Down"))
@@ -968,16 +1148,16 @@ class Ui_Form2(object):
             if (self.RollsStockbutton.isChecked()==True):
                 rollstable()
                 
-            elif (self.ReelsStockbutton.isChecked()==True):
+            if (self.ReelsStockbutton.isChecked()==True):
                 reelstable()
-            elif (self.totaStockbutton.isChecked()==True):
+            if (self.totaStockbutton.isChecked()==True):
                 totatable()
-            else:
+            '''else:
                 msg = QMessageBox()  # create an instance of it
                 msg.setIcon(QMessageBox.Information)  # set icon
-                msg.setText("Select reels or rolls to check and update stock")  # set text
+                msg.setText("Select reels or rolls or tota to check and update stock")  # set text
                 msg.setWindowTitle("Alert")  # set title
-                message = msg.exec_()
+                message = msg.exec_()'''
                 
         def delStocks():
             global rollsstock
@@ -985,234 +1165,239 @@ class Ui_Form2(object):
             global totaystock
             from datetime import date
             try:
-                
-                
-                '''FLUTINGBID,Size,Quantity'''
                 if(self.ReelsStockbutton.isChecked()==True):
                     #sheet=self.itemtypes.currentText().strip()
                     current_row = self.tableWidget.currentRow()
                     current_column = self.tableWidget.currentColumn()
-                    itemtype =str(self.tableWidget.item(current_row, current_column).text()).strip().lower()
+                    itemtype =str(self.tableWidget.item(current_row, 1).text()).strip().lower()
 
-                    Size =int(float(self.tableWidget.item(current_row, current_column+1).text().strip()))
-                    qty_wgt =int(float(self.tableWidget.item(current_row, current_column+2).text().strip()))
+                    Size =int(float(self.tableWidget.item(current_row, 2).text().strip()))
+                    qty_wgt =int(float(self.tableWidget.item(current_row, 3).text().strip()))
                     
                     self.tableWidget.removeRow(self.tableWidget.currentRow())
                  
                     for index, row in reelsstock.iterrows():
-                        if (row[0].strip().lower() == itemtype ) &  ( row[1]==Size) & ( (row[2])== (qty_wgt)):
+                        if (row[1].strip().lower() == itemtype ) &  ( row[2]==Size) & ( (row[3])== (qty_wgt)):
                             reelsstock.drop(index, inplace=True)
                             break
                     reelsstock.reset_index(drop=True)
                     reelstable()
                 if(self.totaStockbutton.isChecked()==True):
+                    
+                    
+                    
                     #sheet=self.itemtypes.currentText().strip()
                     current_row = self.tableWidget.currentRow()
                     current_column = self.tableWidget.currentColumn()
-                    itemtype =str(self.tableWidget.item(current_row, current_column).text()).strip().lower()
+                    print(current_column," ",current_row)
+                    
+                    itemtype =str(self.tableWidget.item(current_row, 1).text()).strip().lower()
 
-                    Size =int(float(self.tableWidget.item(current_row, current_column+1).text().strip()))
-                    qty_wgt =int(float(self.tableWidget.item(current_row, current_column+2).text().strip()))
+                    Size =int(float(self.tableWidget.item(current_row, 2).text().strip()))
+                    qty_wgt =int(float(self.tableWidget.item(current_row, 3).text().strip()))
                     
                     self.tableWidget.removeRow(self.tableWidget.currentRow())
                  
                     for index, row in totaystock.iterrows():
-                        if (row[0].strip().lower() == itemtype ) &  ( row[1]==Size) & ( (row[2])== (qty_wgt)):
+                        if (row[1].strip().lower() == itemtype ) &  ( row[2]==Size) & ( (row[3])== (qty_wgt)):
                             totaystock.drop(index, inplace=True)
                             break
                     totaystock.reset_index(drop=True)
                     totatable()
                 if(self.RollsStockbutton.isChecked()==True):
+                    
                     sheet=self.itemtypes.currentText().strip()
-                    current_row = self.tableWidget.currentRow()
-                    current_column = self.tableWidget.currentColumn()
-                    itemtype =int(float(self.tableWidget.item(current_row, current_column).text().strip())) #id
-                    Size =int(float(self.tableWidget.item(current_row, current_column+1).text().strip()))
-                    qty_wgt =int(float(self.tableWidget.item(current_row, current_column+2).text().strip()))
-                    dt = date.today()
-                    stock_out_func(dt,"Deleted By User",itemtype,Size,qty_wgt,0)
-                    self.tableWidget.removeRow(self.tableWidget.currentRow())
+                     
+                    if(sheet.lower()!="select from drop down"):
+                        current_row = self.tableWidget.currentRow()
+                        current_column = self.tableWidget.currentColumn()
+                        itemtype =int(float(self.tableWidget.item(current_row, current_column).text().strip())) #id
+                        Size =int(float(self.tableWidget.item(current_row, current_column+1).text().strip()))
+                        qty_wgt =int(float(self.tableWidget.item(current_row, current_column+2).text().strip()))
+                        dt = date.today()
+                        stock_out_func(dt,"Deleted By User",itemtype,Size,qty_wgt,0)
+                        self.tableWidget.removeRow(self.tableWidget.currentRow())
                   
-                    if(sheet.lower()=='fluting'):
-                        global fluting
-                        fluting.reset_index(drop=True)
-                              
-                        for index,row in fluting.iterrows():
-                            if   (row['Size']== (Size)):
-                                newquantity=0
-                                fluting.loc[index,'Quantity'] = newquantity
-                        additemtypechange()
+                        if(sheet.lower()=='fluting'):
+                            global fluting
+                            fluting.reset_index(drop=True)
+                                
+                            for index,row in fluting.iterrows():
+                                if   (row['Size']== (Size)):
+                                    newquantity=0
+                                    fluting.loc[index,'Quantity'] = newquantity
+                            additemtypechange()
                          
-                    if(sheet.lower()==("fluting bareek")):
+                        if(sheet.lower()==("fluting bareek")):
 
-                        global fluting_bareek
-                        
-                        fluting_bareek.reset_index(drop=True)
-                              
-                        for index,row in fluting_bareek.iterrows():
-                            if   (row['Size']== (Size)):
-                                newquantity=0
-                                fluting_bareek.loc[index,'Quantity'] = newquantity
-                        additemtypechange()
-                         
-                    if(sheet.lower()==("l1")):   
-                        global L1 
-                        L1.reset_index(drop=True)
-                              
-                        for index,row in L1.iterrows():
-                            if   (row['Size']== (Size)):
-                                newquantity=0
-                                L1.loc[index,'Quantity'] = newquantity
-                        additemtypechange()        
-                         
-                    if(sheet.lower()==("l1 bareek")):   
-                        global L1_bareek
-                        L1_bareek.reset_index(drop=True)
-                              
-                        for index,row in L1_bareek.iterrows():
-                            if   (row['Size']== (Size)):
-                                newquantity=0
-                                L1_bareek.loc[index,'Quantity'] = newquantity
-                        additemtypechange()             
-                    if (sheet.lower()==("l2 bareek")):   
-                        global L2_bareek
-                        L2_bareek.reset_index(drop=True)
-                              
-                        for index,row in L2_bareek.iterrows():
-                            if   (row['Size']== (Size)):
-                                newquantity=0
-                                L2_bareek.loc[index,'Quantity'] = newquantity
-                        additemtypechange()
-
-
-                    if (sheet.lower()==("l2")):   
+                            global fluting_bareek
+                            
+                            fluting_bareek.reset_index(drop=True)
+                                
+                            for index,row in fluting_bareek.iterrows():
+                                if   (row['Size']== (Size)):
+                                    newquantity=0
+                                    fluting_bareek.loc[index,'Quantity'] = newquantity
+                            additemtypechange()
+                            
+                        if(sheet.lower()==("l1")):   
+                            global L1 
+                            L1.reset_index(drop=True)
+                                
+                            for index,row in L1.iterrows():
+                                if   (row['Size']== (Size)):
+                                    newquantity=0
+                                    L1.loc[index,'Quantity'] = newquantity
+                            additemtypechange()        
+                            
+                        if(sheet.lower()==("l1 bareek")):   
+                            global L1_bareek
+                            L1_bareek.reset_index(drop=True)
+                                
+                            for index,row in L1_bareek.iterrows():
+                                if   (row['Size']== (Size)):
+                                    newquantity=0
+                                    L1_bareek.loc[index,'Quantity'] = newquantity
+                            additemtypechange()             
+                        if (sheet.lower()==("l2 bareek")):   
+                            global L2_bareek
+                            L2_bareek.reset_index(drop=True)
+                                
+                            for index,row in L2_bareek.iterrows():
+                                if   (row['Size']== (Size)):
+                                    newquantity=0
+                                    L2_bareek.loc[index,'Quantity'] = newquantity
+                            additemtypechange()
 
 
-                                        global L2
-                                        L2.reset_index(drop=True)
-                                        for index,row in L2.iterrows():
-                                            if  (row['Size']== (Size)):
-                                                newquantity=0
-                                                L2.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()
+                        if (sheet.lower()==("l2")):   
+
+
+                                            global L2
+                                            L2.reset_index(drop=True)
+                                            for index,row in L2.iterrows():
+                                                if  (row['Size']== (Size)):
+                                                    newquantity=0
+                                                    L2.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()
 
 
 
-                    if (sheet.lower()==("test liner")):   
+                        if (sheet.lower()==("test liner")):   
 
 
-                                global test_liner
-                                test_liner.reset_index(drop=True)
-                                for index,row in test_liner.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                test_liner.loc[index,'Quantity'] = newquantity
-                                additemtypechange()                           
+                                    global test_liner
+                                    test_liner.reset_index(drop=True)
+                                    for index,row in test_liner.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    test_liner.loc[index,'Quantity'] = newquantity
+                                    additemtypechange()                           
 
-                    if (sheet.lower()==("test liner bareek")):   
-
-
-                                        global test_liner_bareek
-                                        test_liner_bareek.reset_index(drop=True)
-                                        for index,row in test_liner_bareek.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                test_liner_bareek.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()
-                                                
-                    if (sheet.lower()==("boxboard 2.5 no")):   
-                                        global boxboard2_5
-                                        
-                                        boxboard2_5.reset_index(drop=True)
-                                        for index,row in boxboard2_5.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                boxboard2_5.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()                                
-
-                    if (sheet.lower()==("boxboard 2.5 bareek")):   
+                        if (sheet.lower()==("test liner bareek")):   
 
 
-                                        global boxboard2_5_bareek
-                                        boxboard2_5_bareek.reset_index(drop=True)
-                                        for index,row in boxboard2_5_bareek.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                boxboard2_5_bareek.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()
+                                            global testliner_bareek
+                                            testliner_bareek.reset_index(drop=True)
+                                            for index,row in testliner_bareek.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    testliner_bareek.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()
+                                                    
+                        if (sheet.lower()==("boxboard 2.5 no")):   
+                                            global boxboard2_5
+                                            
+                                            boxboard2_5.reset_index(drop=True)
+                                            for index,row in boxboard2_5.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    boxboard2_5.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()                                
 
-                    if (sheet.lower()==("boxboard 3 no")):   
-
-
-                                        global boxboard3
-                                        boxboard3.reset_index(drop=True)
-                                        for index,row in boxboard3.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                boxboard3.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()
-                    if (sheet.lower()==("boxboard 3 bareek")):
-                                        global  boxboard3_bareek
-                                        boxboard3_bareek.reset_index(drop=True)
-                                        for index,row in boxboard3_bareek.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                boxboard3_bareek.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()                                           
-                    if (sheet.lower()==("local kraft")):   
-                        global localkraft
-                        localkraft.reset_index(drop=True)
-                        for index,row in localkraft.iterrows():
-                            if ( (row['Size']== (Size))):
-                                newquantity=0
-                                localkraft.loc[index,'Quantity'] = newquantity
-                        additemtypechange()                          
-                    if (sheet.lower()==("local kraft bareek")):
-                                                global localkraft_bareek
-                                                localkraft_bareek.reset_index(drop=True)
-                                                for index,row in localkraft_bareek.iterrows():
-                                                    if ( (row['Size']== (Size))):
-                                                        newquantity=0
-                                                        localkraft_bareek.loc[index,'Quantity'] = newquantity
-                                                additemtypechange()  
-                                        
-                    if (sheet.lower()==("imported kraft")):  
-                        global importedkraft
-                        importedkraft.reset_index(drop=True)
-                        for index,row in importedkraft.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                importedkraft.loc[index,'Quantity'] = newquantity
-                        additemtypechange()                          
-
-                    if (sheet.lower()==("imported kraft bareek")):
-                        global importedkraft_bareek
-                        importedkraft_bareek.reset_index(drop=True)
-                        for index,row in importedkraft_bareek.iterrows():
-                                            if ( (row['Size']== (Size))):
-                                                newquantity=0
-                                                importedkraft_bareek.loc[index,'Quantity'] = newquantity
-                        additemtypechange()                                                  
-                         
-                    if (sheet.lower()==("super fluting")):
-                                                global superfluting
-                                                superfluting.reset_index(drop=True)
-                                                for index,row in superfluting.iterrows():
-                                                                    if ( (row['Size']== (Size))):
-                                                                        newquantity=0
-                                                                        superfluting.loc[index,'Quantity'] = newquantity
-                                                additemtypechange()   
-                                        
-                    if (sheet.lower()==("super fluting bareek")):   
+                        if (sheet.lower()==("boxboard 2.5 bareek")):   
 
 
-                                        global superfluting_bareek
-                                        superfluting_bareek.reset_index(drop=True)
-                                        for index,row in superfluting_bareek.iterrows():
-                                                            if ( (row['Size']== (Size))):
-                                                                newquantity=0
-                                                                superfluting_bareek.loc[index,'Quantity'] = newquantity
-                                        additemtypechange()   
+                                            global boxboard2_5_bareek
+                                            boxboard2_5_bareek.reset_index(drop=True)
+                                            for index,row in boxboard2_5_bareek.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    boxboard2_5_bareek.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()
+
+                        if (sheet.lower()==("boxboard 3 no")):   
+
+
+                                            global boxboard3
+                                            boxboard3.reset_index(drop=True)
+                                            for index,row in boxboard3.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    boxboard3.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()
+                        if (sheet.lower()==("boxboard 3 bareek")):
+                                            global  boxboard3_bareek
+                                            boxboard3_bareek.reset_index(drop=True)
+                                            for index,row in boxboard3_bareek.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    boxboard3_bareek.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()                                           
+                        if (sheet.lower()==("local kraft")):   
+                            global localkraft
+                            localkraft.reset_index(drop=True)
+                            for index,row in localkraft.iterrows():
+                                if ( (row['Size']== (Size))):
+                                    newquantity=0
+                                    localkraft.loc[index,'Quantity'] = newquantity
+                            additemtypechange()                          
+                        if (sheet.lower()==("local kraft bareek")):
+                                                    global localkraft_bareek
+                                                    localkraft_bareek.reset_index(drop=True)
+                                                    for index,row in localkraft_bareek.iterrows():
+                                                        if ( (row['Size']== (Size))):
+                                                            newquantity=0
+                                                            localkraft_bareek.loc[index,'Quantity'] = newquantity
+                                                    additemtypechange()  
+                                            
+                        if (sheet.lower()==("imported kraft")):  
+                            global importedkraft
+                            importedkraft.reset_index(drop=True)
+                            for index,row in importedkraft.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    importedkraft.loc[index,'Quantity'] = newquantity
+                            additemtypechange()                          
+
+                        if (sheet.lower()==("imported kraft bareek")):
+                            global importedkraft_bareek
+                            importedkraft_bareek.reset_index(drop=True)
+                            for index,row in importedkraft_bareek.iterrows():
+                                                if ( (row['Size']== (Size))):
+                                                    newquantity=0
+                                                    importedkraft_bareek.loc[index,'Quantity'] = newquantity
+                            additemtypechange()                                                  
+                            
+                        if (sheet.lower()==("super fluting")):
+                                                    global superfluting
+                                                    superfluting.reset_index(drop=True)
+                                                    for index,row in superfluting.iterrows():
+                                                                        if ( (row['Size']== (Size))):
+                                                                            newquantity=0
+                                                                            superfluting.loc[index,'Quantity'] = newquantity
+                                                    additemtypechange()   
+                                            
+                        if (sheet.lower()==("super fluting bareek")):   
+
+
+                                            global superfluting_bareek
+                                            superfluting_bareek.reset_index(drop=True)
+                                            for index,row in superfluting_bareek.iterrows():
+                                                                if ( (row['Size']== (Size))):
+                                                                    newquantity=0
+                                                                    superfluting_bareek.loc[index,'Quantity'] = newquantity
+                                            additemtypechange()   
             except AttributeError:
                 msg = QMessageBox()  # create an instance of it
                 msg.setIcon(QMessageBox.Information)  # set icon
@@ -1287,6 +1472,7 @@ class Ui_Form2(object):
             self.qty_grams_box.setText('0')
             self.itemtype_search.setCurrentIndex(0)
             self.comboBox_size_2.setCurrentIndex(0)
+            cleartable()
             msg = QMessageBox()  # create an instance of it
             msg.setIcon(QMessageBox.Information)  # set icon
             msg.setText("Data Saved to File Successfully")  # set text
@@ -1303,8 +1489,8 @@ class Ui_Form2(object):
                 sizes=self.comboBox_size_2.currentText().strip()
                 '''if (name== "Select from Drop Down"):
                         errors.append('Invalid Choice. Select Item Type to search') '''
-                if (name== "Select from Drop Down") and (sizes!= "Select from Drop Down"):
-                        errors.append('Invalid Choice. Select Item Type / Size or both to search') 
+                if (name== "Select from Drop Down") or (sizes== "Select from Drop Down"):
+                        errors.append('Invalid Choice. Selectboth Item Type / Size  to search') 
                 if (len(errors) != 0  ):
                     msg = QMessageBox()  # create an instance of it
                     msg.setIcon(QMessageBox.Information)  # set icon
@@ -1348,7 +1534,7 @@ class Ui_Form2(object):
                      #self.itemsear.setCurrentIndex(0)
                     if(ids== "Select from Drop Down" ):  
                         #search by itemtype
-                        columnOfInterest =0 # or whatever
+                        columnOfInterest =1 # or whatever
                         valueOfInterest = name 
                         for rowIndex in range(self.tableWidget.rowCount()):
                             twItem = self.tableWidget.item(rowIndex, columnOfInterest)
@@ -1360,7 +1546,7 @@ class Ui_Form2(object):
 
                     elif (name== "Select from Drop Down".lower()):
                         #search by size
-                        columnOfInterest =1 # or whatever
+                        columnOfInterest =2 # or whatever
                         valueOfInterest =ids 
                         for rowIndex in range(self.tableWidget.rowCount()):
                             twItem = self.tableWidget.item(rowIndex, columnOfInterest)
@@ -1370,9 +1556,9 @@ class Ui_Form2(object):
                                 self.tableWidget.setRowHidden(rowIndex, True)
 
                     elif(not((ids== "Select from Drop Down") and (name== "Select from Drop Down".lower()))):
-                        columnOfInterest =1 # or whatever
+                        columnOfInterest =2 # or whatever
                         valueOfInterest =ids 
-                        columnOfInterest2 =0 # or whatever
+                        columnOfInterest2 =1 # or whatever
                         valueOfInterest2 =name 
                         for rowIndex in range(self.tableWidget.rowCount()):
                             twItem1 = self.tableWidget.item(rowIndex, columnOfInterest)
@@ -1889,10 +2075,10 @@ class Ui_Form2(object):
 
 
             elif (self.ReelsStockbutton.isChecked()==True):
-                reelstable()   
+                pass 
                 
             else:
-                totatable()
+                pass
 
 
         def generate_stock_pdf():
