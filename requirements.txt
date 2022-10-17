@@ -7,7 +7,8 @@ pandas
 openpyxl
 pdf2image
 pillow
-module
+auto-py-to-exe
+pyinstaller
 Google
 google-api-python-client
 google-cloud
